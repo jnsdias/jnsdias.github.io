@@ -32,6 +32,23 @@ function updatePalette() {
     updateOutputText();
 }
 
+// Função para contar caracteres e palavras
+function countTextStats() {
+    // Obtém o conteúdo do textarea (BBCode gerado)
+    const bbcodeOutputValue = bbcodeOutput.value;
+    
+    // Conta o número de caracteres
+    const charCount = bbcodeOutputValue.length;
+
+    // Remove espaços em branco extras e conta palavras
+    const trimmedStr = bbcodeOutputValue.trim();
+    const wordCount = trimmedStr === "" ? 0 : trimmedStr.split(/\s+/).length;
+
+    // Atualiza os valores exibidos na página
+    document.getElementById('chars').textContent = charCount;
+    document.getElementById('words').textContent = wordCount;
+}
+
 function updateOutputText() {
     const isBold = boldCheckbox.checked;
     const isItalic = italicCheckbox.checked;
@@ -63,6 +80,7 @@ function updateOutputText() {
 
     // Atualiza o BBCode após a saída do texto
     updateBBcodeOutput(); // Chama para garantir que o BBCode seja atualizado
+    countTextStats();
 }
 
 
