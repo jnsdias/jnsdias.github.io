@@ -45,35 +45,11 @@
                 <h1>Prévia:</h1>
                 <div id="output-text">Seu texto será exibido aqui.</div>
                 <h1>Seu BBCode:</h1>
-                <textarea id="bbcode-output"></textarea>
-                <div class="show-result">
-        			Caracteres: <span class="number" id="chars">0</span>
-        			Palavras: <span class="number" id="words">0</span>
-        	    </div>
-                <script>
-                    function run(){
-                    	$('#bbcode-output').on('input', function(){
-                    		var bbcode-output = $('#bbcode-output').val();
-                    		var c = bbcode-output.length;
-                    		//var w = bbcode-output.split(/\S+/).length - 1;
-                    
-                    		var fullStr = bbcode-output + " ";
-                    		var initial_whitespace_rExp = /^[^\wÀ-ú]+/gi;
-                    		var left_trimmedStr = fullStr.replace(initial_whitespace_rExp, "");
-                    		var non_alphanumerics_rExp = rExp = /[^\wÀ-ú']+/gi;
-                    		var cleanedStr = left_trimmedStr.replace(non_alphanumerics_rExp, " ");
-                    		var splitString = cleanedStr.split(" ");
-                    		var w = splitString.length - 1;
-                    		
-                    		var lines = bbcode-output.split("\n");
-                    		var l = (bbcode-output.length==0) ? 0 : lines.length;
-                    		
-                    		$('#chars').text(c);
-                    		$('#words').text(w);
-                    		$('#lines').text(l);
-                    	});
-                    }
-                </script>
+                <textarea id="bbcode-output" readonly></textarea>
+                <div id="contadores">
+                  <p>Caracteres: <span id="chars">0</span></p>
+                  <p>Palavras: <span id="words">0</span></p>
+                </div>
             </div>
             <div id="button-container">
                 <button id="copy-button">Copiar</button>
