@@ -46,10 +46,11 @@
                 <div id="output-text">Seu texto será exibido aqui.</div>
                 <h1>Seu BBCode:</h1>
                 <textarea id="bbcode-output" readonly></textarea>
-                <div id="contadores">
-                  <p>Caracteres: <span id="chars">0</span></p>
-                  <p>Palavras: <span id="words">0</span></p>
-                </div>
+                <div class="show-result">
+        			Caracteres: <span class="number" id="chars">0</span>
+        			Palavras: <span class="number" id="words">0</span>
+        			Linhas: <span class="number" id="lines">0</span>
+        		</div>
                 <script>
                     function run(){
                     	$('#bbcode-output').on('input', function(){
