@@ -162,17 +162,27 @@ function generateBBcode() {
     // Aplica o efeito arco-íris
     if (isRainbowActive) {
         for (let i = 0; i < textValue.length; i++) {
-            const hue = (i / textValue.length) * 360;
-            const color = hslToHex(hue, 100, 50);
-            bbcode += `[corhtml=${color.slice(1)}]${textValue[i]}[/corhtml]`; // Remove o símbolo #
+            const char = textValue[i];
+            if (char === " ") {
+                bbcode += " "; // Adiciona espaço diretamente
+            } else {
+                const hue = (i / textValue.length) * 360;
+                const color = hslToHex(hue, 100, 50);
+                bbcode += `[corhtml=${color.slice(1)}]${char}[/corhtml]`; // Remove o símbolo #
+            }
         }
     } else {
         const startColor = startColorInput.value;
         const endColor = endColorInput.value;
 
         for (let i = 0; i < textValue.length; i++) {
-            let color = interpolateColor(startColor, endColor, i / Math.max(textValue.length - 1, 1));
-            bbcode += `[corhtml=${color.slice(1)}]${textValue[i]}[/corhtml]`; // Remove o símbolo #
+            const char = textValue[i];
+            if (char === " ") {
+                bbcode += " "; // Adiciona espaço diretamente
+            } else {
+                let color = interpolateColor(startColor, endColor, i / Math.max(textValue.length - 1, 1));
+                bbcode += `[corhtml=${color.slice(1)}]${char}[/corhtml]`; // Remove o símbolo #
+            }
         }
     }
 
@@ -182,6 +192,7 @@ function generateBBcode() {
 
     return bbcode;
 }
+
 
 // Atualiza a saída do BBCode
 function updateBBcodeOutput() {
