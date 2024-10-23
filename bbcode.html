@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Gerador moderno de efeitos de texto em degradê BBCode, permitindo que você faça efeitos horizontais em seu texto! Colorize seu texto facilmente!">
+    <link rel="preconnect" href="https://fonts.googleapis.com/" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+    <meta property="og:title" content="Gerador de Gradientes BBCode">
+    <meta property="og:description" content="Crie efeitos de degradê horizontais impressionantes para seu texto com este gerador de gradientes BBCode!">
+    <meta property="og:image" content="https://products.ls.graphics/mesh-gradients/images/29.-Pale-Cornflower-Blue_1.jpg">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Gerador de Gradientes BBCode">
+    <meta property="og:locale" content="pt_BR">
+    <title>Gerador de Gradientes BBCode</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon.png">
+</head>
+<body>
+    <div class="header">
+        <div id="container">
+            <textarea id="gradient-text" rows="4" placeholder="Digite seu texto aqui..."></textarea>
+            <div id="color-picker-container">
+                <input type="color" class="color-picker" id="start-color" value="#f780ff">
+                <input type="color" class="color-picker" id="end-color" value="#bde9ff">
+            </div>
+            <div id="palette"></div>
+            <div id="button-rainbow">
+                <button id="rainbow-button">RAINBOW!!!</button>
+            </div>
+            <div id="settings-container">
+                <div id="bold-italic-checkbox">
+                    <input type="checkbox" id="bold-checkbox">
+                    <label for="bold-checkbox">Negrito</label>
+                    <input type="checkbox" id="italic-checkbox">
+                    <label for="italic-checkbox">Itálico</label>
+                    <input type="checkbox" id="grande-checkbox">
+                    <label for="grande-checkbox">Grande</label>
+                </div>
+            </div>
+            <div id="output-container">
+                <h1>Prévia:</h1>
+                <div id="output-text">Seu texto será exibido aqui.</div>
+                <h1>Seu BBCode:</h1>
+                <textarea id="bbcode-output" readonly></textarea>
+            </div>
+            <div id="button-container">
+                <button id="copy-button">Copiar</button>
+                <button id="clear-button">Limpar</button>
+            </div>
+            <div id="aviso-button"></div>
+        </div>
+        <h1>BBCodes compatíveis com os sites BrasilWAP, DesejoWAP e AnimaçãoWAP.</h1>
+        <h1>Criado por Jonas Lima</h1>
+    </div>
+    <script type="module" src="/script.js"></script>
+</body>
+</html>

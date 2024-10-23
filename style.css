@@ -1,0 +1,369 @@
+@import url(https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap);
+
+#container,
+h1 {
+    text-align: center;
+}
+
+select {
+    appearance: none;
+    -webkit-appearance: none;
+    background-size: 30px;
+    background-position: right 10px center;
+    transition: 250ms;
+}
+
+select:hover {
+    background-color: #333;
+}
+
+::selection {
+    background-color: #ff69b4;
+}
+
+input[type=checkbox] {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    border: 1px solid #555;
+    width: 20px;
+    height: 20px;
+    border-radius: 5px;
+    outline: 0;
+    cursor: pointer;
+    transition: 250ms;
+    margin-right: 0;
+}
+
+input[type=checkbox]:hover {
+    border: 3px solid #f780ff;
+    box-shadow: 0 0 8px 1px #9f2a4571;
+    filter: brightness(120%);
+    outline: #808080 solid 2px;
+}
+
+input[type=checkbox]:checked {
+    background: linear-gradient(to right, #f780ff, #bde9ff);
+    border: 1px solid #1e1e1e;
+}
+
+input[type=range] {
+    width: 100%;
+    margin-top: 10px;
+}
+
+body,
+header {
+    align-items: center;
+}
+
+select,
+select option {
+    size: 5;
+}
+
+body,
+h1 {
+    display: flex;
+}
+
+#container,
+select {
+    background-color: #2b2b2b;
+}
+
+body,
+select {
+    color: #d3d3d3;
+    background-repeat: no-repeat;
+}
+
+body,
+h1,
+select option {
+    font-family: Poppins, Arial, sans-serif;
+}
+
+#checkbox:hover,
+#copy-button:hover,
+#gradient-text:hover,
+select:hover {
+    border-color: #f780ff;
+}
+
+body {
+    justify-content: center;
+    margin: 0;
+    background-image: url("https://cdn.glitch.global/87407f9b-2f94-4ed8-bfe5-9b1cdb8778f4/29%20(1).webp?v=1707357147942");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-color: #80a1ec;
+}
+
+h1 {
+    color: #6e6e6e;
+    font-size: 12px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#color-picker-container,
+header {
+    justify-content: center;
+    display: flex;
+}
+
+#container {
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 15px 12px 5px 2px rgba(225, 170, 225, .7);
+    margin: 35px auto auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+@media only screen and (max-width: 360px) {
+    #container {
+        width: 100%;
+        margin-top: 100px;
+    }
+}
+
+@media only screen and (max-width: 767px) {
+    #container {
+        width: 80%;
+        margin-top: 80px;
+    }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+    #container {
+        width: 80%;
+        margin-top: 60px;
+    }
+}
+
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+    #container {
+        width: 85%;
+        margin-top: 40px;
+    }
+}
+
+@media only screen and (min-width: 1200px) {
+    #container {
+        width: 90%;
+    }
+}
+
+header {
+    border: none;
+    margin-bottom: 20px;
+}
+
+#bbcode-output,
+#gradient-text {
+    margin: 2px;
+    width: 250px;
+    min-width: 200px;
+    max-width: 400px;
+    height: 80px;
+    min-height: 50px;
+    max-height: 120px;
+    color: #dcddde;
+    font-size: 16px;
+    padding: 9px;
+    background: #303030;
+    border: 2px solid transparent;
+    border-image: initial;
+    border-radius: 8px;
+    outline: 0;
+    transition: 250ms;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+#color-picker-container {
+    gap: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.color-picker {
+    width: 70px;
+    height: 30px;
+    border: 1px solid #808089;
+    outline: 0;
+    cursor: pointer;
+    border-radius: 5px;
+    background-color: #808089;
+    color: #d3d3d3;
+}
+
+#palette {
+    display: none;
+    gap: 5px;
+    margin-bottom: 10px;
+    justify-content: center;
+}
+
+.palette-color {
+    width: 30px;
+    height: 30px;
+    border-radius: 5px;
+    border: 2px solid #d3d3d3;
+    cursor: pointer;
+    transition: background-color .3s;
+}
+
+#settings-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#font-select,
+#font-size {
+    margin-bottom: 10px;
+    width: 100%;
+    background-color: #303030;
+    color: #d3d3d3;
+}
+
+#bold-italic-grande-checkbox label {
+    margin-left: 5px;
+    color: #d3d3d3;
+    align-items: center;
+}
+
+#output-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#output-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #d3d3d3;
+    font-family: 'Courier New', Courier, monospace;
+
+    /* Borda estilizada para combinar com o resto do site */
+    border: 2px solid transparent; /* Começa transparente */
+    padding: 10px;
+    border-radius: 8px;
+
+    /* Borda com efeito de degradê */
+    background-image: linear-gradient(white, white), linear-gradient(to right, #fa60ff, #aff3ff);
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
+}
+
+#aviso-button {
+    margin-top: 20px; /* Espaço acima da div */
+    color: #696868; /* Cor do texto */
+    font-size: 0.8rem; /* Tamanho da fonte */
+    text-align: center; /* Alinhamento do texto ao centro */
+    display: none; /* Inicialmente oculta */
+}
+
+#aviso-button.visible {
+    display: block; /* Exibe quando a classe 'visible' é adicionada */
+}
+
+#bbcode-output {
+    width: 250px;
+    height: 50px;
+    padding: 10px;
+    font-family: monospace;
+    overflow: auto;
+    text-align: left;
+    background-color: #303030;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+@media only screen and (max-width: 767px) {
+    #bbcode-output,
+    #gradient-text {
+        width: 80%;
+    }
+}
+
+select {
+    border: 3px solid #555;
+    padding: 8px;
+    border-radius: 4px;
+    outline: 0;
+    height: 50px;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("https://cdn.glitch.global/87407f9b-2f94-4ed8-bfe5-9b1cdb8778f4/left-modified%20(1)%20(1).webp?v=1707358943193");
+}
+
+#button-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px; /* Espaçamento entre os botões */
+    margin-top: 10px; /* Espaçamento acima dos botões */
+}
+
+button {
+    background-color: #f780ff; /* Cor de fundo dos botões */
+    color: #2b2b2b; /* Cor do texto dos botões */
+    border: none; /* Sem borda padrão */
+    border-radius: 5px; /* Bordas arredondadas */
+    padding: 10px 15px; /* Espaçamento interno */
+    cursor: pointer; /* Cursor em forma de mão ao passar o mouse */
+    transition: background-color 0.3s ease, transform 0.2s; /* Transições suaves */
+    font-size: 16px; /* Tamanho da fonte */
+}
+
+button:hover {
+    background-color: #e6b2ff; /* Cor de fundo ao passar o mouse */
+    transform: scale(1.05); /* Efeito de aumento ao passar o mouse */
+}
+
+#rainbow-button {
+    padding: 10px 15px; /* Espaçamento interno do botão */
+    border: none; /* Sem borda */
+    border-radius: 5px; /* Bordas arredondadas */
+    cursor: pointer; /* Cursor em forma de mão ao passar o mouse */
+    font-size: 16px; /* Tamanho da fonte */
+    transition: background-color 0.3s ease, transform 0.2s; /* Transições suaves */
+    color: #5a5959; /* Cor do texto */
+    background-color: rgba(255, 255, 255, 0.7); /* Cor de fundo padrão (apagado) */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    margin-bottom: 10px;
+}
+
+#rainbow-button.active {
+    background: linear-gradient(to right, #ff0000, #ff7f00, #ffff00, #00ff00, #00ffff, #0000ff, #7f00ff); /* Gradiente arco-íris */
+    color: white; /* Cor do texto quando ativado */
+}
+
+#rainbow-button:hover {
+    transform: scale(1.05); /* Efeito de aumento ao passar o mouse */
+}
+
+.rainbow-active {
+    background: linear-gradient(45deg, #ff007f, #ff7f00, #ffff00, #7fff00, #00ff7f, #00ffff, #007fff, #0000ff, #7f00ff, #ff00ff);
+    color: white; /* Define a cor do texto como branca para melhor visibilidade */
+    border: none; /* Remove a borda padrão */
+    text-shadow: 
+               -1px -1px 0px #FFF, 
+               -1px 1px 0px #FFF,                    
+                1px -1px 0px #FFF,                  
+                1px 0px 0px #FFF;
+    font-size: 1.5rem;
+    font-family: Helvetica, sans-serif;
+}
+
