@@ -4,6 +4,7 @@ const gradientText = document.getElementById("gradient-text"),
     paletteContainer = document.getElementById("palette"),
     boldCheckbox = document.getElementById("bold-checkbox"),
     italicCheckbox = document.getElementById("italic-checkbox"),
+    subCheckbox = document.getElementById("sub-checkbox"),
     grandeCheckbox = document.getElementById("grande-checkbox"),
     copyButton = document.getElementById("copy-button"),
     clearButton = document.getElementById("clear-button"),
@@ -52,6 +53,7 @@ function countTextStats() {
 function updateOutputText() {
     const isBold = boldCheckbox.checked;
     const isItalic = italicCheckbox.checked;
+    const isSub = subCheckbox.checked;
     const isGrande = grandeCheckbox.checked;
     const startColor = startColorInput.value;
     const endColor = endColorInput.value;
@@ -62,6 +64,7 @@ function updateOutputText() {
     let cssStyle = `font-family: sans-serif;`;
     if (isBold) cssStyle += "font-weight: bold;";
     if (isItalic) cssStyle += "font-style: italic;";
+    if (isSub) cssStyle += "text-decoration: underline;"
     if (isGrande) cssStyle += "font-size: 1.5em;";
 
     outputText.style = cssStyle;
@@ -152,12 +155,14 @@ function generateBBcode() {
     const isGrande = grandeCheckbox.checked;
     const isBold = boldCheckbox.checked;
     const isItalic = italicCheckbox.checked;
+    const isSub = subCheckbox.checked;
     const textValue = gradientText.value;
     let bbcode = "";
 
     if (isGrande) bbcode += "[big]";
     if (isBold) bbcode += "[b]";
     if (isItalic) bbcode += "[i]";
+    if (isSub) bbcode += "[u]";
 
     // Aplica o efeito arco-íris
     if (isRainbowActive) {
@@ -186,6 +191,7 @@ function generateBBcode() {
         }
     }
 
+    if (isSub) bbcode += "[/u]";
     if (isItalic) bbcode += "[/i]";
     if (isBold) bbcode += "[/b]";
     if (isGrande) bbcode += "[/big]";
@@ -236,6 +242,7 @@ endColorInput.addEventListener("input", updatePalette);
 gradientText.addEventListener("input", updatePalette);
 boldCheckbox.addEventListener("change", updateOutputText);
 italicCheckbox.addEventListener("change", updateOutputText);
+subCheckbox.addEventListener("change", updateOutputText);
 grandeCheckbox.addEventListener("change", updateOutputText);
 copyButton.addEventListener("click", () => {
     navigator.clipboard.writeText(bbcodeOutput.value);
