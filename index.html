@@ -47,9 +47,33 @@
                 <h1>Seu BBCode:</h1>
                 <textarea id="bbcode-output" readonly></textarea>
                 <div id="contadores">
-                  <p>Caracteres: <span id="charCount">0</span></p>
-                  <p>Palavras: <span id="wordCount">0</span></p>
+                  <p>Caracteres: <span id="chars">0</span></p>
+                  <p>Palavras: <span id="words">0</span></p>
                 </div>
+                <script>
+                    function run(){
+                    	$('#bbcode-output').on('input', function(){
+                    		var bbcode-output = $('#bbcode-output').val();
+                    		var c = bbcode-output.length;
+                    		//var w = bbcode-output.split(/\S+/).length - 1;
+                    
+                    		var fullStr = bbcode-output + " ";
+                    		var initial_whitespace_rExp = /^[^\wÀ-ú]+/gi;
+                    		var left_trimmedStr = fullStr.replace(initial_whitespace_rExp, "");
+                    		var non_alphanumerics_rExp = rExp = /[^\wÀ-ú']+/gi;
+                    		var cleanedStr = left_trimmedStr.replace(non_alphanumerics_rExp, " ");
+                    		var splitString = cleanedStr.split(" ");
+                    		var w = splitString.length - 1;
+                    		
+                    		var lines = bbcode-output.split("\n");
+                    		var l = (bbcode-output.length==0) ? 0 : lines.length;
+                    		
+                    		$('#chars').text(c);
+                    		$('#words').text(w);
+                    		$('#lines').text(l);
+                    	});
+                    }
+                </script>
             </div>
             <div id="button-container">
                 <button id="copy-button">Copiar</button>
