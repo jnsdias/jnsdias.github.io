@@ -201,25 +201,6 @@ rainbowButton.addEventListener("click", () => {
     updateBBcodeOutput(); // Garante que o BBCode também seja atualizado
 });
 
-// Função para contar caracteres e palavras
-function updateCount() {
-  // Seleciona o textarea de saída do BBCode
-  const bbcodeOutput = document.getElementById('bbcode-output');
-  
-  // Conta o número de caracteres (sem espaços extras)
-  const charCount = bbcodeOutput.value.length;
-  
-  // Conta o número de palavras, dividindo por espaços e filtrando palavras vazias
-  const wordCount = bbcodeOutput.value.trim().split(/\s+/).filter(word => word.length > 0).length;
-  
-  // Atualiza os contadores no HTML
-  document.getElementById('charCount').innerText = charCount;
-  document.getElementById('wordCount').innerText = wordCount;
-}
-
-// Adiciona o evento de "input" ao textarea para chamar a função sempre que o texto mudar
-document.getElementById('bbcode-output').addEventListener('input', updateCount);
-
 // Adiciona eventos aos elementos
 startColorInput.addEventListener("input", updatePalette);
 endColorInput.addEventListener("input", updatePalette);
