@@ -215,3 +215,23 @@ copyButton.addEventListener("click", () => {
     showMessage("Código copiado para a área de transferência!"); // Mensagem ao copiar
 });
 clearButton.addEventListener("click", clearTextarea);
+
+// Função para contar caracteres e palavras
+function updateCount() {
+  // Seleciona o textarea de saída
+  const outputText = document.getElementById('outputText');
+  
+  // Conta o número de caracteres (sem espaços extras)
+  const charCount = outputText.value.length;
+  
+  // Conta o número de palavras, dividindo por espaços e filtrando palavras vazias
+  const wordCount = outputText.value.trim().split(/\s+/).filter(word => word.length > 0).length;
+  
+  // Atualiza os contadores no HTML
+  document.getElementById('charCount').innerText = charCount;
+  document.getElementById('wordCount').innerText = wordCount;
+}
+
+// Adiciona o evento de "input" ao textarea para chamar a função sempre que o texto mudar
+document.getElementById('outputText').addEventListener('input', updateCount);
+
