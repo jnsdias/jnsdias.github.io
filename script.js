@@ -218,14 +218,11 @@ clearButton.addEventListener("click", clearTextarea);
 
 // Função para contar caracteres e palavras
 function updateCount() {
-  // Seleciona o textarea de saída
-  const outputText = document.getElementById('outputText');
-  
   // Conta o número de caracteres (sem espaços extras)
-  const charCount = outputText.value.length;
+  const charCount = bbcodeOutput.value.length;
   
   // Conta o número de palavras, dividindo por espaços e filtrando palavras vazias
-  const wordCount = outputText.value.trim().split(/\s+/).filter(word => word.length > 0).length;
+  const wordCount = .value.trim().split(/\s+/).filter(word => word.length > 0).length;
   
   // Atualiza os contadores no HTML
   document.getElementById('charCount').innerText = charCount;
