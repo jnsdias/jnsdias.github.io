@@ -373,3 +373,26 @@ button:hover {
     opacity: 0;
     transition: opacity 1s ease-in-out;
 }
+
+/* Animação do efeito rainbow */
+@keyframes rainbow {
+    0% { color: red; }
+    16% { color: orange; }
+    32% { color: yellow; }
+    48% { color: green; }
+    64% { color: blue; }
+    80% { color: indigo; }
+    100% { color: violet; }
+}
+
+/* Estilo do texto com o efeito rainbow */
+.rainbow-text {
+    font-size: 3em;
+    font-weight: bold;
+    background: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet);
+    -webkit-background-clip: text;
+    color: transparent;
+    animation: rainbow 3s infinite linear;
+    text-align: center;
+    margin-top: 50px;
+}
