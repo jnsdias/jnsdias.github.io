@@ -119,7 +119,7 @@ header {
     padding: 20px;
     border-radius: 10px;
     box-shadow: 15px 12px 5px 2px rgba(225, 170, 225, .7);
-    margin: 10px auto auto;
+    margin: auto auto auto;
     display: flex;
     flex-direction: column;
     align-items: center;
