@@ -165,6 +165,8 @@ header {
 header {
     border: none;
     margin-bottom: 20px;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 #bbcode-output,
