@@ -65,7 +65,7 @@
     </div>
     <script type="module" src="/script.js"></script>
     <script>
-        const dicas = [
+        const dica = [
             "Testando dicas.",
             "Testando dicas 2.",
         ];
@@ -75,21 +75,21 @@
     
         function mudarDica() {
             // Fade-out
-            elementoDicas.style.opacity = 0;
+            elementoDica.style.opacity = 0;
     
             // Espera até o fade-out completar antes de mudar o texto
             setTimeout(() => {
-                elementoDicas.textContent = dicas[indice];
-                indice = (indice + 1) % dicas.length;
+                elementoDica.textContent = dica[indice];
+                indice = (indice + 1) % dica.length;
     
                 // Fade-in
-                elementoDicas.style.opacity = 1;
+                elementoDica.style.opacity = 1;
             }, 1000); // Tempo de transição (1 segundo)
         }
     
         // Inicialmente, exibe o primeiro texto com fade-in
         setTimeout(() => {
-            elementoDicas.style.opacity = 1;
+            elementoDica.style.opacity = 1;
         }, 1000);
     
         // Muda o texto a cada 4 segundos (3 segundos + 1 segundo de transição)
