@@ -25,8 +25,8 @@
             <textarea id="gradient-text" rows="4" placeholder="Digite seu texto aqui..."></textarea>
             <h1>Selecione abaixo as cores para gerar o degradê:</h1>
             <div id="color-picker-container">
-                <input type="color" class="color-picker" id="start-color" value="#f780ff">
-                <input type="color" class="color-picker" id="end-color" value="#bde9ff">
+                <input type="color" class="color-picker" id="start-color" value="#E034B8">
+                <input type="color" class="color-picker" id="end-color" value="#E2DA14">
             </div>
             <div id="palette"></div>
             <div id="button-rainbow">
@@ -61,8 +61,7 @@
             </div>
             <div id="aviso-button"></div>
         </div>
-        <h1>BBCodes compatíveis com os sites BrasilWAP, DesejoWAP e AnimaçãoWAP.</h1>
-        <h1>Criado por Jonas Lima</h1>
+        <h1 style="color: white;">Criado por Jonas Lima</h1>
     </div>
     <script type="module" src="/script.js"></script>
     <script>
@@ -70,6 +69,7 @@
             "O hall possui limite de 240 caracteres, portanto atente-se ao contador de caracteres.",
             "O 'Quem sou eu' possui limite de 1000 caracteres, atente-se ao contator de caracteres.",
             "Nos pensamentos e fórum talvez seja necessário editar a postagem e inserir o código novamente.",
+            "BBCodes compatíveis com os sites BrasilWAP, DesejoWAP e AnimaçãoWAP."
         ];
 
         let indice = 0;
@@ -95,7 +95,7 @@
         }, 1000);
 
         // Muda o texto a cada 6 segundos (5 segundos visível + 1 segundo para a transição)
-        setInterval(mudarDica, 6000);
+        setInterval(mudarDica, 8000);
     </script>
 </body>
 </html>
