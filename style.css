@@ -369,7 +369,6 @@ button:hover {
 }
 
 #dica {
-    margin-top: 5px;
     opacity: 0;
     transition: opacity 1s ease-in-out;
 }
@@ -386,7 +385,7 @@ button:hover {
 }
 
 .rainbow-text {
-    font-size: 3em;
+    font-size: 2em;
     font-weight: bold;
     color: red; /* Cor inicial */
     animation: rainbow 4s infinite; /* Duração e repetição da animação */
