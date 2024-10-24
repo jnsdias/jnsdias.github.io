@@ -371,5 +371,5 @@ button:hover {
 #dica {
     margin-top: 5px;
     opacity: 0;
-    transition: opacity 3s ease-in-out;
+    transition: opacity 4s ease-in-out;
 }
