@@ -155,6 +155,7 @@ function activateButton(activeButton) {
                 thirdColorInput.style.display = "none"; // Oculta o terceiro campo de entrada
             } else {
                 rainbowGif.style.display = "none"; // Oculta o GIF para outros botões
+                rainbowButton.classList.remove("rainbow-active"); // Remove a classe se desativado
 
                 // Exibe inputs de acordo com o botão ativo
                 if (button === solidButton) {
