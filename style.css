@@ -254,7 +254,7 @@
     }
 
     #output-text {
-        width: 300px; /* Defina a largura desejada */
+        width: 500px; /* Defina a largura desejada */
         max-width: 100%; /* Garante que o elemento não exceda a largura do seu container pai */
         white-space: normal; /* Permite quebra de linha */
         overflow-wrap: break-word; /* Quebra palavras longas se necessário */
@@ -404,7 +404,6 @@
         display: none; /* Inicialmente oculto, será exibido ao ativar o botão rainbow */
     }
     
-<<<<<<< HEAD
     #bold-italic-checkbox {
         display: grid;
         grid-template-columns: repeat(4, 1fr); /* Cria duas colunas de largura igual */
@@ -413,6 +412,3 @@
         justify-items: start;
     }
     
-=======
-    
->>>>>>> c1d66e0a61d30a645a7a4067e0166e9658091f24
