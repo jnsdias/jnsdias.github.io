@@ -254,23 +254,25 @@
     }
 
     #output-text {
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        width: 500px; /* Defina a largura desejada */
+        max-width: 100%; /* Garante que o elemento não exceda a largura do seu container pai */
+        white-space: normal; /* Permite quebra de linha */
+        overflow-wrap: break-word; /* Quebra palavras longas se necessário */
         color: #d3d3d3;
         font-family: 'Courier New', Courier, monospace;
-
+    
         /* Borda estilizada para combinar com o resto do site */
         border: 2px solid transparent; /* Começa transparente */
         padding: 10px;
         border-radius: 8px;
-
+    
         /* Borda com efeito de degradê */
         background-image: linear-gradient(white, white), linear-gradient(to right, #fa60ff, #aff3ff);
         background-origin: border-box;
         background-clip: padding-box, border-box;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
     }
+    
 
     #aviso-button {
         margin-top: 20px; /* Espaço acima da div */

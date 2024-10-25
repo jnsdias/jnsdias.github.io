@@ -32,6 +32,10 @@ function updateOutputText() {
 
     let textValue = gradientText.value.trim() || "Seu texto será exibido aqui.";
 
+    // Limitar o número de caracteres
+    const maxLength = 1000; // limite de caracteres
+    textValue = textValue.length > maxLength ? textValue.substring(0, maxLength) + '...' : textValue;
+
     let cssStyle = `font-family: sans-serif;`;
     if (isBold) cssStyle += "font-weight: bold;";
     if (isItalic) cssStyle += "font-style: italic;";
