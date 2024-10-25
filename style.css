@@ -96,7 +96,7 @@
         margin: 0;
         margin-left: auto;
         margin-right: auto;
-        background-image: url("https://replicate.com/_homepage-assets/goo-placeholder.C8e3VOB-_Z1DI5pQ.svg");
+        background-image: url("bg.svg");
         background-size: cover;
         background-position: center;
         background-attachment: fixed;
@@ -300,17 +300,6 @@
         #gradient-text {
             width: 80%;
         }
-    }
-
-    select {
-        border: 3px solid #555;
-        padding: 8px;
-        border-radius: 4px;
-        outline: 0;
-        height: 50px;
-        appearance: none;
-        -webkit-appearance: none;
-        background-image: url("https://cdn.glitch.global/87407f9b-2f94-4ed8-bfe5-9b1cdb8778f4/left-modified%20(1)%20(1).webp?v=1707358943193");
     }
 
     #button-container {
