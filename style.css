@@ -404,4 +404,11 @@
         display: none; /* Inicialmente oculto, será exibido ao ativar o botão rainbow */
     }
     
+    #bold-italic-checkbox {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr); /* Cria duas colunas de largura igual */
+        grid-auto-rows: auto; /* Ajusta a altura das linhas automaticamente */
+        gap: 10px; /* Espaçamento entre os checkboxes */
+        justify-items: start;
+    }
     
