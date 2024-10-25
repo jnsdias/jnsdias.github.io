@@ -133,6 +133,7 @@ function generateBBcode() {
 // Função para atualizar o BBCode de saída
 function updateBBcodeOutput() {
     bbcodeOutput.value = generateBBcode();
+    countTextStats();
 }
 
 const rainbowGif = document.getElementById('rainbowGif');
@@ -238,6 +239,44 @@ rainbowButton.addEventListener("click", () => {
     updateOutputText();
 });
 
+// Exibe uma mensagem temporária
+function showMessage(message) {
+    const avisoButton = document.getElementById("aviso-button");
+    avisoButton.textContent = message; // Define a mensagem
+    avisoButton.classList.add("visible"); // Mostra a mensagem
+
+    // Remove a mensagem após 3 segundos
+    setTimeout(() => {
+        avisoButton.classList.remove("visible"); // Oculta a mensagem
+    }, 3000);
+}
+
+// Limpa o campo de entrada
+function clearTextarea() {
+    gradientText.value = ""; // Limpa o campo de entrada
+    showMessage("Os campos foram limpos!"); // Exibe mensagem na div
+    updateOutputText();
+    updateBBcodeOutput();
+}
+
+// Função para contar caracteres e palavras
+function countTextStats() {
+    // Obtém o conteúdo do textarea (BBCode gerado)
+    const bbcodeOutputValue = bbcodeOutput.value;
+    
+    // Conta o número de caracteres
+    const charCount = bbcodeOutputValue.length;
+
+    // Remove espaços em branco extras e conta palavras
+    const trimmedStr = bbcodeOutputValue.trim();
+    const wordCount = trimmedStr === "" ? 0 : trimmedStr.split(/\s+/).length;
+
+    // Atualiza os valores exibidos na página
+    document.getElementById('chars').textContent = charCount;
+    document.getElementById('words').textContent = wordCount;
+
+}
+
 // Eventos para atualizar as opções selecionadas
 startColorInput.addEventListener("input", updateOutputText);
 midColorInput.addEventListener("input", updateOutputText);
@@ -249,12 +288,9 @@ subCheckbox.addEventListener("change", updateOutputText);
 grandeCheckbox.addEventListener("change", updateOutputText);
 copyButton.addEventListener("click", () => {
     navigator.clipboard.writeText(bbcodeOutput.value);
-    alert("Código copiado!");
+    showMessage("Código copiado para a área de transferência!"); // Mensagem ao copiar
 });
-clearButton.addEventListener("click", () => {
-    gradientText.value = "";
-    updateOutputText();
-});
+clearButton.addEventListener("click", clearTextarea);
 
 // Função para converter HSL para HEX
 function hslToHex(h, s, l) {
