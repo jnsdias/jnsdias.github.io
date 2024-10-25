@@ -1,7 +1,7 @@
 const gradientText = document.getElementById("gradient-text"),
     startColorInput = document.getElementById("start-color"),
-    endColorInput = document.getElementById("end-color"),
-    paletteContainer = document.getElementById("palette"),
+    midColorInput = document.getElementById("mid-color"),
+    thirdColorInput = document.getElementById("third-color"),
     boldCheckbox = document.getElementById("bold-checkbox"),
     italicCheckbox = document.getElementById("italic-checkbox"),
     subCheckbox = document.getElementById("sub-checkbox"),
@@ -9,130 +9,260 @@ const gradientText = document.getElementById("gradient-text"),
     copyButton = document.getElementById("copy-button"),
     clearButton = document.getElementById("clear-button"),
     rainbowButton = document.getElementById("rainbow-button"),
-    outputText = document.getElementById("output-text"),
-    bbcodeOutput = document.getElementById("bbcode-output");
+    bbcodeOutput = document.getElementById("bbcode-output"),
+    solidButton = document.getElementById("solid-button"),
+    twoColorButton = document.getElementById("two-color-button"),
+    threeColorButton = document.getElementById("three-color-button"),
+    outputText = document.getElementById("output-text");
 
-let isRainbowActive = false; // Inicializa o estado do efeito arco-íris
+let isRainbowActive = false;
+let isTwoColorActive = false;
+let isThreeColorActive = false;
+let isSolidColorActive = true; // Cor sólida ativa por padrão
 
-// Atualiza a paleta de cores com base nas entradas do usuário
-function updatePalette() {
-    const startColor = startColorInput.value;
-    const endColor = endColorInput.value;
-    const textValue = gradientText.value;
-    const maxLength = Math.min(textValue.length, 6);
-
-    paletteContainer.innerHTML = ""; // Limpa a paleta
-
-    for (let i = 0; i < maxLength; i++) {
-        const colorBox = document.createElement("div");
-        colorBox.className = "palette-color";
-        colorBox.style.backgroundColor = interpolateColor(startColor, endColor, i / Math.max(textValue.length - 1, 1));
-        colorBox.addEventListener("click", () => setColorFromPalette(colorBox.style.backgroundColor, i));
-        paletteContainer.appendChild(colorBox);
-    }
-    updateOutputText();
-}
-
-// Função para contar caracteres e palavras
-function countTextStats() {
-    // Obtém o conteúdo do textarea (BBCode gerado)
-    const bbcodeOutputValue = bbcodeOutput.value;
-    
-    // Conta o número de caracteres
-    const charCount = bbcodeOutputValue.length;
-
-    // Remove espaços em branco extras e conta palavras
-    const trimmedStr = bbcodeOutputValue.trim();
-    const wordCount = trimmedStr === "" ? 0 : trimmedStr.split(/\s+/).length;
-
-    // Atualiza os valores exibidos na página
-    document.getElementById('chars').textContent = charCount;
-    document.getElementById('words').textContent = wordCount;
-}
-
+// Função para atualizar o texto de saída e BBCode
 function updateOutputText() {
     const isBold = boldCheckbox.checked;
     const isItalic = italicCheckbox.checked;
     const isSub = subCheckbox.checked;
     const isGrande = grandeCheckbox.checked;
     const startColor = startColorInput.value;
-    const endColor = endColorInput.value;
+    const midColor = midColorInput.value;
+    const thirdColor = thirdColorInput.value;
 
     let textValue = gradientText.value.trim() || "Seu texto será exibido aqui.";
 
-    // Configuração do estilo do texto
     let cssStyle = `font-family: sans-serif;`;
     if (isBold) cssStyle += "font-weight: bold;";
     if (isItalic) cssStyle += "font-style: italic;";
-    if (isSub) cssStyle += "text-decoration: underline;"
+    if (isSub) cssStyle += "text-decoration: underline;";
     if (isGrande) cssStyle += "font-size: 1.5em;";
 
-    outputText.style = cssStyle;
-
-    // Aplicação do efeito arco-íris ou gradiente
-    outputText.innerHTML = textValue.split("").map((char, index) => {
-        if (isRainbowActive) {
-            const hue = (index / textValue.length) * 360; // Cálculo da matiz
-            const color = hslToHex(hue, 100, 50); // Converte HSL para HEX
-            return `<span style="color: ${color}">${char}</span>`;
-        } else {
-            const color = interpolateColor(startColor, endColor, index / Math.max(textValue.length - 1, 1));
-            return `<span style="color: ${color}">${char}</span>`;
+    let formattedText = "";
+    for (let i = 0; i < textValue.length; i++) {
+        const char = textValue[i];
+        let color;
+        if (char === " ") {
+            formattedText += " "; // Mantém espaços sem formatação
+            continue;
         }
-    }).join("");
+        if (isRainbowActive) {
+            const hue = (i / textValue.length) * 360;
+            color = hslToHex(hue, 100, 50);
+        } else if (isTwoColorActive) {
+            color = interpolateColor(startColor, midColor, i / Math.max(textValue.length - 1, 1));
+        } else if (isThreeColorActive) {
+            color = interpolateThreeColor(startColor, midColor, thirdColor, i / Math.max(textValue.length - 1, 1));
+        } else {
+            color = startColor;
+        }
+        formattedText += `<span style="color: ${color}; ${cssStyle}">${char}</span>`;
+    }
 
-    // Atualiza o BBCode após a saída do texto
-    updateBBcodeOutput(); // Chama para garantir que o BBCode seja atualizado
-    countTextStats();
+    outputText.innerHTML = formattedText;
+
+    updateBBcodeOutput();
+}
+
+// Função para interpolar gradientes de três cores
+function interpolateThreeColor(start, mid, end, factor) {
+    if (factor < 0.5) {
+        return interpolateColor(start, mid, factor * 2);
+    } else {
+        return interpolateColor(mid, end, (factor - 0.5) * 2);
+    }
+}
+
+// Função para gerar o BBCode com base nas opções
+function generateBBcode() {
+    const isBold = boldCheckbox.checked;
+    const isItalic = italicCheckbox.checked;
+    const isSub = subCheckbox.checked;
+    const isGrande = grandeCheckbox.checked;
+    const textValue = gradientText.value;
+    let bbcode = "";
+
+    if (isGrande) bbcode += "[big]";
+    if (isBold) bbcode += "[b]";
+    if (isItalic) bbcode += "[i]";
+    if (isSub) bbcode += "[u]";
+
+    if (isRainbowActive) {
+        for (let i = 0; i < textValue.length; i++) {
+            const char = textValue[i];
+            if (char === " ") {
+                bbcode += " "; // Mantém espaços sem formatação
+                continue;
+            }
+            const hue = (i / textValue.length) * 360;
+            const color = hslToHex(hue, 100, 50);
+            bbcode += `[corhtml=${color.slice(1)}]${char}[/corhtml]`;
+        }
+    } else if (isTwoColorActive) {
+        for (let i = 0; i < textValue.length; i++) {
+            const char = textValue[i];
+            if (char === " ") {
+                bbcode += " "; // Mantém espaços sem formatação
+                continue;
+            }
+            const color = interpolateColor(startColorInput.value, midColorInput.value, i / Math.max(textValue.length - 1, 1));
+            bbcode += `[corhtml=${color.slice(1)}]${char}[/corhtml]`;
+        }
+    } else if (isThreeColorActive) {
+        for (let i = 0; i < textValue.length; i++) {
+            const char = textValue[i];
+            if (char === " ") {
+                bbcode += " "; // Mantém espaços sem formatação
+                continue;
+            }
+            const color = interpolateThreeColor(startColorInput.value, midColorInput.value, thirdColorInput.value, i / Math.max(textValue.length - 1, 1));
+            bbcode += `[corhtml=${color.slice(1)}]${char}[/corhtml]`;
+        }
+    } else {
+        bbcode += `[corhtml=${startColorInput.value.slice(1)}]${textValue}[/corhtml]`;
+    }
+
+    if (isSub) bbcode += "[/u]";
+    if (isItalic) bbcode += "[/i]";
+    if (isBold) bbcode += "[/b]";
+    if (isGrande) bbcode += "[/big]";
+
+    return bbcode;
+}
+
+// Função para atualizar o BBCode de saída
+function updateBBcodeOutput() {
+    bbcodeOutput.value = generateBBcode();
+}
+
+const rainbowGif = document.getElementById('rainbowGif');
+
+// Função para ativar um botão e desativar os outros
+function activateButton(activeButton) {
+    const buttons = [solidButton, twoColorButton, threeColorButton, rainbowButton];
+
+    buttons.forEach(button => {
+        if (button === activeButton) {
+            button.classList.add('active');
+            button.classList.remove('inactive');
+
+            // Especifica a ação para o botão arco-íris
+            if (button === rainbowButton) {
+                rainbowButton.classList.add("rainbow-active");
+                rainbowGif.style.display = "block"; // Mostra o GIF
+                startColorInput.style.display = "none"; // Oculta o campo de cor sólida
+                midColorInput.style.display = "none"; // Oculta o campo de cor do meio
+                thirdColorInput.style.display = "none"; // Oculta o terceiro campo de entrada
+            } else {
+                rainbowGif.style.display = "none"; // Oculta o GIF para outros botões
+
+                // Exibe inputs de acordo com o botão ativo
+                if (button === solidButton) {
+                    startColorInput.style.display = "inline"; // Mostra apenas o input sólido
+                    midColorInput.style.display = "none"; // Oculta o input do meio
+                    thirdColorInput.style.display = "none"; // Oculta o input do terceiro
+                } else if (button === twoColorButton) {
+                    startColorInput.style.display = "inline"; // Oculta o input sólido
+                    midColorInput.style.display = "inline"; // Mostra o input do meio
+                    thirdColorInput.style.display = "none"; // Oculta o input do terceiro
+                } else if (button === threeColorButton) {
+                    startColorInput.style.display = "inline"; // Oculta o input sólido
+                    midColorInput.style.display = "inline"; // Mostra o input do meio
+                    thirdColorInput.style.display = "inline"; // Mostra o input do terceiro
+                }
+            }
+        } else {
+            button.classList.remove('active');
+            button.classList.add('inactive');
+        }
+    });
 }
 
 
-// Configura a cor a partir da paleta de cores
-function setColorFromPalette(color, index) {
-    gradientText.focus();
-    document.execCommand("insertHTML", false, `<span style="color: ${color}">${gradientText.value[index]}</span>`);
-    updatePalette();
+// Função de inicialização
+function initializeButtons() {
+    // Ativa o botão de cor sólida ao carregar a página
+    activateButton(solidButton);
+    isSolidColorActive = true; // Define o estado do botão ativo como verdadeiro
+    midColorInput.style.display = "none"; // Oculta os campos de entrada para cores adicionais
+    thirdColorInput.style.display = "none"; // Oculta o terceiro campo de entrada
+    updateOutputText(); // Atualiza a saída
+}
+
+window.onload = initializeButtons;
+
+// Eventos de clique para alternar entre os tipos de cor
+solidButton.addEventListener("click", () => {
+    isRainbowActive = false;
+    isTwoColorActive = false;
+    isThreeColorActive = false;
+    isSolidColorActive = true;
+    midColorInput.style.display = "none";
+    thirdColorInput.style.display = "none";
+    activateButton(solidButton);
     updateOutputText();
-}
+});
 
-// Interpola entre duas cores
-function interpolateColor(start, end, factor) {
-    const startRgb = hexToRgb(start);
-    const endRgb = hexToRgb(end);
-    const result = {
-        r: Math.round(startRgb.r + factor * (endRgb.r - startRgb.r)),
-        g: Math.round(startRgb.g + factor * (endRgb.g - startRgb.g)),
-        b: Math.round(startRgb.b + factor * (endRgb.b - startRgb.b))
-    };
-    return rgbToHex(result.r, result.g, result.b);
-}
+twoColorButton.addEventListener("click", () => {
+    isRainbowActive = false;
+    isTwoColorActive = true;
+    isThreeColorActive = false;
+    isSolidColorActive = false;
+    midColorInput.style.display = "inline";
+    thirdColorInput.style.display = "none";
+    activateButton(twoColorButton);
+    updateOutputText();
+});
 
-// Converte HEX para RGB
-function hexToRgb(hex) {
-    hex = hex.replace(/^#/, "");
-    return {
-        r: parseInt(hex.substring(0, 2), 16),
-        g: parseInt(hex.substring(2, 4), 16),
-        b: parseInt(hex.substring(4, 6), 16)
-    };
-}
+threeColorButton.addEventListener("click", () => {
+    isRainbowActive = false;
+    isTwoColorActive = false;
+    isThreeColorActive = true;
+    isSolidColorActive = false;
+    midColorInput.style.display = "inline";
+    thirdColorInput.style.display = "inline";
+    activateButton(threeColorButton);
+    updateOutputText();
+});
 
-// Converte RGB para HEX
-function rgbToHex(r, g, b) {
-    return `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)}`;
-}
+// Ativar o efeito arco-íris
+rainbowButton.addEventListener("click", () => {
+    isRainbowActive = true;
+    isTwoColorActive = false;
+    isThreeColorActive = false;
+    isSolidColorActive = false;
+    midColorInput.style.display = "none";
+    thirdColorInput.style.display = "none";
+    activateButton(rainbowButton);
+    updateOutputText();
+});
 
-// Converte HSL para HEX
+// Eventos para atualizar as opções selecionadas
+startColorInput.addEventListener("input", updateOutputText);
+midColorInput.addEventListener("input", updateOutputText);
+thirdColorInput.addEventListener("input", updateOutputText);
+gradientText.addEventListener("input", updateOutputText);
+boldCheckbox.addEventListener("change", updateOutputText);
+italicCheckbox.addEventListener("change", updateOutputText);
+subCheckbox.addEventListener("change", updateOutputText);
+grandeCheckbox.addEventListener("change", updateOutputText);
+copyButton.addEventListener("click", () => {
+    navigator.clipboard.writeText(bbcodeOutput.value);
+    alert("Código copiado!");
+});
+clearButton.addEventListener("click", () => {
+    gradientText.value = "";
+    updateOutputText();
+});
+
+// Função para converter HSL para HEX
 function hslToHex(h, s, l) {
     s /= 100;
     l /= 100;
-
-    const c = (1 - Math.abs(2 * l - 1)) * s; // Chroma
+    const c = (1 - Math.abs(2 * l - 1)) * s;
     const x = c * (1 - Math.abs((h / 60) % 2 - 1));
     const m = l - c / 2;
-
     let r, g, b;
-
     if (h < 60) {
         r = c; g = x; b = 0;
     } else if (h < 120) {
@@ -146,107 +276,30 @@ function hslToHex(h, s, l) {
     } else {
         r = c; g = 0; b = x;
     }
-
-    return rgbToHex(Math.round((r + m) * 255), Math.round((g + m) * 255), Math.round((b + m) * 255));
+    const rHex = Math.round((r + m) * 255).toString(16).padStart(2, '0');
+    const gHex = Math.round((g + m) * 255).toString(16).padStart(2, '0');
+    const bHex = Math.round((b + m) * 255).toString(16).padStart(2, '0');
+    return `#${rHex}${gHex}${bHex}`;
 }
 
-// Gera o BBCode com base no texto e estilo atual
-function generateBBcode() {
-    const isGrande = grandeCheckbox.checked;
-    const isBold = boldCheckbox.checked;
-    const isItalic = italicCheckbox.checked;
-    const isSub = subCheckbox.checked;
-    const textValue = gradientText.value;
-    let bbcode = "";
-
-    if (isGrande) bbcode += "[big]";
-    if (isBold) bbcode += "[b]";
-    if (isItalic) bbcode += "[i]";
-    if (isSub) bbcode += "[u]";
-
-    // Aplica o efeito arco-íris
-    if (isRainbowActive) {
-        for (let i = 0; i < textValue.length; i++) {
-            const char = textValue[i];
-            if (char === " ") {
-                bbcode += " "; // Adiciona espaço diretamente
-            } else {
-                const hue = (i / textValue.length) * 360;
-                const color = hslToHex(hue, 100, 50);
-                bbcode += `[corhtml=${color.slice(1)}]${char}[/corhtml]`; // Remove o símbolo #
-            }
-        }
-    } else {
-        const startColor = startColorInput.value;
-        const endColor = endColorInput.value;
-
-        for (let i = 0; i < textValue.length; i++) {
-            const char = textValue[i];
-            if (char === " ") {
-                bbcode += " "; // Adiciona espaço diretamente
-            } else {
-                let color = interpolateColor(startColor, endColor, i / Math.max(textValue.length - 1, 1));
-                bbcode += `[corhtml=${color.slice(1)}]${char}[/corhtml]`; // Remove o símbolo #
-            }
-        }
-    }
-
-    if (isSub) bbcode += "[/u]";
-    if (isItalic) bbcode += "[/i]";
-    if (isBold) bbcode += "[/b]";
-    if (isGrande) bbcode += "[/big]";
-
-    return bbcode;
+// Função para interpolar cores
+function interpolateColor(start, end, factor) {
+    const startRGB = hexToRgb(start);
+    const endRGB = hexToRgb(end);
+    const result = startRGB.map((startVal, index) => Math.round(startVal + factor * (endRGB[index] - startVal)));
+    return rgbToHex(result[0], result[1], result[2]);
 }
 
-
-// Atualiza a saída do BBCode
-function updateBBcodeOutput() {
-    bbcodeOutput.value = generateBBcode(); // Use 'value' para textarea
+// Função para converter HEX para RGB
+function hexToRgb(hex) {
+    const bigint = parseInt(hex.slice(1), 16);
+    return [(bigint >> 16) & 255, (bigint >> 8) & 255, bigint & 255];
 }
 
-// Limpa o campo de entrada
-function clearTextarea() {
-    gradientText.value = ""; // Limpa o campo de entrada
-    showMessage("Os campos foram limpos!"); // Exibe mensagem na div
-    updateOutputText();
-    updateBBcodeOutput();
+// Função para converter RGB para HEX
+function rgbToHex(r, g, b) {
+    return `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1).toUpperCase()}`;
 }
 
-// Exibe uma mensagem temporária
-function showMessage(message) {
-    const avisoButton = document.getElementById("aviso-button");
-    avisoButton.textContent = message; // Define a mensagem
-    avisoButton.classList.add("visible"); // Mostra a mensagem
-
-    // Remove a mensagem após 3 segundos
-    setTimeout(() => {
-        avisoButton.classList.remove("visible"); // Oculta a mensagem
-    }, 3000);
-}
-
-rainbowButton.addEventListener("click", () => {
-    isRainbowActive = !isRainbowActive; // Alterna o estado do efeito arco-íris
-    if (isRainbowActive) {
-        rainbowButton.classList.add("rainbow-active"); // Adiciona classe de efeito arco-íris
-    } else {
-        rainbowButton.classList.remove("rainbow-active"); // Remove a classe se desativado
-    }
-    updateOutputText(); // Atualiza a saída do texto
-    updateBBcodeOutput(); // Garante que o BBCode também seja atualizado
-});
-
-// Adiciona eventos aos elementos
-startColorInput.addEventListener("input", updatePalette);
-endColorInput.addEventListener("input", updatePalette);
-gradientText.addEventListener("input", updatePalette);
-boldCheckbox.addEventListener("change", updateOutputText);
-italicCheckbox.addEventListener("change", updateOutputText);
-subCheckbox.addEventListener("change", updateOutputText);
-grandeCheckbox.addEventListener("change", updateOutputText);
-copyButton.addEventListener("click", () => {
-    navigator.clipboard.writeText(bbcodeOutput.value);
-    showMessage("Código copiado para a área de transferência!"); // Mensagem ao copiar
-});
-clearButton.addEventListener("click", clearTextarea);
-
+// Inicializa a interface
+updateOutputText();

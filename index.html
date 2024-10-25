@@ -4,30 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Gerador de BBCode para os sites BrasilWAP, DesejoWAP e AnimaçãoWAP.">
-    <link rel="preconnect" href="https://fonts.googleapis.com/" crossorigin>
-    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
-    <meta property="og:title" content="Gerador de BBCode">
-    <meta property="og:description" content="Gerador de BBCode para os sites BrasilWAP, DesejoWAP e AnimaçãoWAP.">
-    <meta property="og:image" content="https://products.ls.graphics/mesh-gradients/images/29.-Pale-Cornflower-Blue_1.jpg">
-    <meta property="og:type" content="website">
-    <meta property="og:site_name" content="Gerador de BBCode">
-    <meta property="og:locale" content="pt_BR">
-    <title>Gerador de BBCode</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon.png">
+    <title>Gerador de BBCode</title>
 </head>
 <body>
     <div class="header">
         <h1 class="rainbow-text">[BBCODE]</h1>
-        <h1><div id="dica">Carregando dica...</div></h1>
+        <h1><div id="dica">Criado por Jonas</div></h1>
         <div id="container">
             <textarea id="gradient-text" rows="4" placeholder="Digite seu texto aqui..."></textarea>
-            <h1>Selecione abaixo as cores para gerar o degradê:</h1>
+            <h1>Selecione abaixo a opção de cores:</h1>
+
+            <!-- Botões para selecionar o tipo de cor -->
+            <div id="color-option">
+                <button id="solid-button" class="color-type-btn">Cor Sólida</button>
+                <button id="two-color-button" class="color-type-btn selected">2 Cores</button>
+                <button id="three-color-button" class="color-type-btn">3 Cores</button>
+            </div>
+
+            <!-- Inputs de seleção de cores -->
             <div id="color-picker-container">
                 <input type="color" class="color-picker" id="start-color" value="#E034B8">
-                <input type="color" class="color-picker" id="end-color" value="#E2DA14">
+                <input type="color" class="color-picker" id="mid-color" value="#E2DA14" style="display: inline;">
+                <input type="color" class="color-picker" id="third-color" value="#DE534D" style="display: none;">
+                <!-- Elemento para exibir o GIF -->
+                <img id="rainbowGif" src="nyan-cat.gif" alt="Nyan Cat" style="display: none;">
             </div>
+
             <div id="palette"></div>
             <div id="button-rainbow">
                 <button id="rainbow-button">RAINBOW!!!</button>
@@ -61,7 +64,8 @@
             </div>
             <div id="aviso-button"></div>
         </div>
-        <h1 style="color: white;">Criado por Jonas Lima</h1>
+        <h1 style="color: white; margin-top: 20px;">Criado por Jonas Lima</h1>
+        <h1 style="font-size: x-small; color: white;">Parcialmente baseado em <a href="https://bbcode.glitch.me">bbcode.glitch.me</a></h1>
     </div>
     <script type="module" src="/script.js"></script>
     <script>
