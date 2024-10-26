@@ -378,14 +378,24 @@
         85% { color: violet; }
         100% { color: red; }
     }
-
+    
+    @keyframes bgMove {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+    
     .rainbow-text {
         font-size: 1.5em;
         font-weight: bold;
-        color: red; /* Cor inicial */
-        animation: rainbow 4s infinite; /* Duração e repetição da animação */
+        color: red;
+        animation: rainbow 4s infinite, bgMove 8s infinite linear;
         text-align: center;
         margin-top: 50px;
+        background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet);
+        background-size: 200% 200%;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
     }
 
     button.active {

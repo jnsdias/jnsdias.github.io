@@ -8,39 +8,48 @@
       <circle
         r="1"
         fill="#ff00fa"
-        transform="matrix(59.95118 68.67642 -118.3441 103.30865 50.5 79.7)"
-      />
+        transform="matrix(59.95118 68.67642 -118.3441 103.30865 50.5 79.7)">
+        <animate attributeName="fill" values="#ff00fa; #ffdf26; #f7007e; #ff00fa" dur="4s" repeatCount="indefinite" />
+      </circle>
       <circle
         r="1"
         fill="#ffdf26"
-        transform="matrix(71.77638 36.88805 -93.95302 182.8128 219.4 122)"
-      />
+        transform="matrix(71.77638 36.88805 -93.95302 182.8128 219.4 122)">
+        <animate attributeName="fill" values="#ffdf26; #f7007e; #ff0eff; #ffdf26" dur="4s" repeatCount="indefinite" />
+      </circle>
       <circle
         r="1"
         fill="#f7007e"
-        transform="matrix(32.92104 -47.7368 29.9643 20.66447 255 72.5)"
-      />
+        transform="matrix(32.92104 -47.7368 29.9643 20.66447 255 72.5)">
+        <animate attributeName="fill" values="#f7007e; #ff0eff; #f9c000; #f7007e" dur="4s" repeatCount="indefinite" />
+      </circle>
       <circle
         r="1"
         fill="#ff0eff"
-        transform="matrix(-19.04388 11.50453 -88.27386 -146.12305 74.1 89)"
-      />
+        transform="matrix(-19.04388 11.50453 -88.27386 -146.12305 74.1 89)">
+        <animate attributeName="fill" values="#ff0eff; #f9c000; #ff0; #ff0eff" dur="4s" repeatCount="indefinite" />
+      </circle>
       <circle
         r="1"
         fill="#f9c000"
-        transform="matrix(-27.54465 14.95552 -26.43498 -48.68718 0 76.8)"
-      />
+        transform="matrix(-27.54465 14.95552 -26.43498 -48.68718 0 76.8)">
+        <animate attributeName="fill" values="#f9c000; #ff0; #f95e1b; #f9c000" dur="4s" repeatCount="indefinite" />
+      </circle>
       <circle
         r="1"
         fill="#ff0"
-        transform="matrix(20.08264 10.32107 -97.88872 190.47085 179 98)"
-      />
-      <ellipse cx="99" cy="4" fill="#f95e1b" rx="29" ry="98" />
+        transform="matrix(20.08264 10.32107 -97.88872 190.47085 179 98)">
+        <animate attributeName="fill" values="#ff0; #f95e1b; #fd19fb; #ff0" dur="4s" repeatCount="indefinite" />
+      </circle>
+      <ellipse cx="99" cy="4" fill="#f95e1b" rx="29" ry="98">
+        <animate attributeName="fill" values="#f95e1b; #fd19fb; #ff00fa; #f95e1b" dur="4s" repeatCount="indefinite" />
+      </ellipse>
       <circle
         r="1"
         fill="#fd19fb"
-        transform="matrix(4.1232 25.4574 -64.58516 10.46051 66 139.3)"
-      />
+        transform="matrix(4.1232 25.4574 -64.58516 10.46051 66 139.3)">
+        <animate attributeName="fill" values="#fd19fb; #ff00fa; #ffdf26; #fd19fb" dur="4s" repeatCount="indefinite" />
+      </circle>
     </g>
   </g>
 </svg>
