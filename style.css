@@ -121,7 +121,7 @@
         padding: 20px;
         border-radius: 10px;
         box-shadow: 15px 12px 5px 2px rgba(225, 170, 225, .7);
-        margin: 35px auto auto;
+        margin: 10px auto auto;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -131,28 +131,24 @@
     @media only screen and (max-width: 360px) {
         #container {
             width: 100%;
-            margin-top: 100px;
         }
     }
 
     @media only screen and (max-width: 767px) {
         #container {
             width: 80%;
-            margin-top: 80px;
         }
     }
 
     @media only screen and (min-width: 768px) and (max-width: 991px) {
         #container {
             width: 80%;
-            margin-top: 60px;
         }
     }
 
     @media only screen and (min-width: 992px) and (max-width: 1199px) {
         #container {
             width: 85%;
-            margin-top: 40px;
         }
     }
 
@@ -421,4 +417,37 @@
         gap: 10px; /* Espaçamento entre os checkboxes */
         justify-items: start;
     }
+    .links {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px; 
+    }
     
+    .links a {
+        display: inline-block;
+        text-decoration: none; /* Remove o sublinhado */
+        color: white; /* Cor do texto */
+        background-color: #006eff; /* Cor de fundo */
+        padding: 10px 20px; /* Espaçamento interno */
+        border-radius: 5px; /* Borda arredondada */
+        margin-right: 10px; /* Espaçamento entre os links */
+        transition: background-color 0.3s, transform 0.3s; /* Animação suave */
+    }
+    
+    .links a:hover {
+        background-color: #0056b3; /* Cor de fundo ao passar o mouse */
+        transform: translateY(-3px); /* Efeito de elevação ao passar o mouse */
+    }
+    
+    .links a:last-child {
+        margin-right: 0; /* Remove o espaçamento direito do último link */
+    }
+    
+    p {
+        color: #888888;
+        font-size: 12px;
+        flex-direction: column;
+        text-align: center;
+        justify-content: center;
+        font-weight: bold;
+    }
