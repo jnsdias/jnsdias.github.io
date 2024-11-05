@@ -426,9 +426,10 @@
     .links a {
         display: inline-block;
         text-decoration: none; /* Remove o sublinhado */
+        font-size: small;
         color: white; /* Cor do texto */
         background-color: #006eff; /* Cor de fundo */
-        padding: 10px 20px; /* Espaçamento interno */
+        padding: 5px 10px; /* Espaçamento interno */
         border-radius: 5px; /* Borda arredondada */
         margin-right: 10px; /* Espaçamento entre os links */
         transition: background-color 0.3s, transform 0.3s; /* Animação suave */
