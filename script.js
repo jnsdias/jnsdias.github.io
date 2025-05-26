@@ -100,7 +100,7 @@ function generateBBcode() {
             }
             const hue = (i / textValue.length) * 360;
             const color = hslToHex(hue, 100, 50);
-            bbcode += `[corhtml=${color.slice(1)}]${char}[/corhtml]`;
+            bbcode += `[cor=${color.slice(1)}]${char}[/cor]`;
         }
     } else if (isTwoColorActive) {
         for (let i = 0; i < textValue.length; i++) {
@@ -110,7 +110,7 @@ function generateBBcode() {
                 continue;
             }
             const color = interpolateColor(startColorInput.value, midColorInput.value, i / Math.max(textValue.length - 1, 1));
-            bbcode += `[corhtml=${color.slice(1)}]${char}[/corhtml]`;
+            bbcode += `[cor=${color.slice(1)}]${char}[/cor]`;
         }
     } else if (isThreeColorActive) {
         for (let i = 0; i < textValue.length; i++) {
@@ -120,10 +120,10 @@ function generateBBcode() {
                 continue;
             }
             const color = interpolateThreeColor(startColorInput.value, midColorInput.value, thirdColorInput.value, i / Math.max(textValue.length - 1, 1));
-            bbcode += `[corhtml=${color.slice(1)}]${char}[/corhtml]`;
+            bbcode += `[cor=${color.slice(1)}]${char}[/cor]`;
         }
     } else {
-        bbcode += `[corhtml=${startColorInput.value.slice(1)}]${textValue}[/corhtml]`;
+        bbcode += `[cor=${startColorInput.value.slice(1)}]${textValue}[/cor]`;
     }
 
     if (isSub) bbcode += "[/u]";
