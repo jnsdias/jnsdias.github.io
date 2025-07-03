@@ -50,34 +50,34 @@
         #rainbow-button { padding: 10px 15px; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; transition: background-color 0.3s ease, transform 0.2s; color: #5a5959; background-color: rgba(255, 255, 255, 0.7); box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); margin-bottom: 10px; }
         .rainbow-active { background: linear-gradient(45deg, #ff007f, #ff7f00, #ffff00, #7fff00, #00ff7f, #00ffff, #007fff, #0000ff, #7f00ff, #ff00ff); color: white; border: none; text-shadow: -1px -1px 0px #FFF, -1px 1px 0px #FFF, 1px -1px 0px #FFF, 1px 0px 0px #FFF; font-size: 1.5rem; font-family: Helvetica, sans-serif; font-weight: bold; }
         @keyframes rainbow {
-        0% { color: red; }
-        14% { color: orange; }
-        28% { color: yellow; }
-        42% { color: green; }
-        57% { color: blue; }
-        71% { color: indigo; }
-        85% { color: violet; }
-        100% { color: red; }
-    }
+            0% { color: red; }
+            14% { color: orange; }
+            28% { color: yellow; }
+            42% { color: green; }
+            57% { color: blue; }
+            71% { color: indigo; }
+            85% { color: violet; }
+            100% { color: red; }
+        }
     
-    @keyframes bgMove {
-        0% { background-position: 0% 50%; }
-        50% { background-position: 100% 50%; }
-        100% { background-position: 0% 50%; }
-    }
+        @keyframes bgMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
     
-    .rainbow-text {
-        font-size: 1.5em;
-        font-weight: bold;
-        color: red;
-        animation: rainbow 4s infinite, bgMove 8s infinite linear;
-        text-align: center;
-        margin-top: 50px;
-        background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet);
-        background-size: 200% 200%;
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-    }
+        .rainbow-text {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: red;
+            animation: rainbow 4s infinite, bgMove 8s infinite linear;
+            text-align: center;
+            margin-top: 50px;
+            background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
         button.active { border: none; color: white; font-weight: bold; }
         button.inactive { opacity: 0.6; }
         #rainbowGif { width: auto; height: 30px; display: none; }
