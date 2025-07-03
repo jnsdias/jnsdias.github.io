@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Gerador de BBCode e Fontes Estilizadas para os sites BrasilWAP, DesejoWAP e AnimaçãoWAP.">
+    <link rel="icon" href="favicon.png" type="image/x-icon">
+    <title>[BBCODE]</title>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-65BLYETQRJ"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-65BLYETQRJ');
+    </script>
+    <style>
+        @import url(https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap);
+        #container, h1 { text-align: center; }
+        select { appearance: none; -webkit-appearance: none; background-size: 30px; background-position: right 10px center; transition: 250ms; }
+        select:hover { background-color: #333; }
+        ::selection { background-color: #ff69b4; }
+        input[type=checkbox] { appearance: none; -webkit-appearance: none; -moz-appearance: none; border: 1px solid #555; width: 20px; height: 20px; border-radius: 5px; outline: 0; cursor: pointer; transition: 250ms; margin-right: 0; }
+        input[type=checkbox]:hover { border: 3px solid #f780ff; box-shadow: 0 0 8px 1px #9f2a4571; filter: brightness(120%); outline: #808080 solid 2px; }
+        input[type=checkbox]:checked { background: linear-gradient(to right, #f780ff, #bde9ff); border: 1px solid #1e1e1e; }
+        body, header { align-items: center; }
+        body, h1 { display: flex; }
+        #container, select { background-color: #2b2b2b; }
+        body, select { color: #d3d3d3; background-repeat: no-repeat; }
+        body, h1, select option { font-family: Poppins, Arial, sans-serif; }
+        #copy-button:hover, #gradient-text:hover, select:hover { border-color: #f780ff; }
+        body { justify-content: center; margin: 0; margin-left: auto; margin-right: auto; background-image: url("bg.svg"); background-size: cover; background-position: center; background-attachment: fixed; background-color: #80a1ec; }
+        h1 { color: #6e6e6e; font-size: 12px; flex-direction: column; align-items: center; justify-content: center; }
+        #color-picker-container, header { justify-content: center; display: flex; }
+        #container { padding: 20px; border-radius: 10px; box-shadow: 15px 12px 5px 2px rgba(225, 170, 225, .7); margin: 10px auto auto; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        header { border: none; margin-bottom: 20px; margin-left: 10px; margin-right: 10px; }
+        #bbcode-output, #gradient-text { margin: 2px; width: 250px; min-width: 200px; max-width: 400px; height: 80px; min-height: 50px; max-height: 120px; color: #dcddde; font-size: 16px; padding: 9px; background: #303030; border: 2px solid transparent; border-image: initial; border-radius: 8px; outline: 0; transition: 250ms; position: relative; align-items: center; justify-content: center; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+        #color-picker-container { gap: 10px; margin-top: 10px; margin-bottom: 10px; }
+        .color-picker { width: 70px; height: 30px; border: 1px solid #808089; outline: 0; cursor: pointer; border-radius: 5px; background-color: #808089; color: #d3d3d3; }
+        #settings-container { display: flex; flex-direction: column; align-items: center; }
+        #font-style-select { width: 250px; padding: 8px; margin-bottom: 10px; background-color: #303030; color: #d3d3d3; border: 1px solid #555; border-radius: 5px; font-family: Poppins, Arial, sans-serif; cursor: pointer; }
+        #bold-italic-checkbox label { margin-left: 5px; color: #d3d3d3; align-items: center; }
+        #output-container { display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        #output-text { width: 300px; max-width: 100%; white-space: normal; overflow-wrap: break-word; color: #d3d3d3; font-family: 'Courier New', Courier, monospace; border: 2px solid transparent; padding: 10px; border-radius: 8px; background-image: linear-gradient(white, white), linear-gradient(to right, #fa60ff, #aff3ff); background-origin: border-box; background-clip: padding-box, border-box; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); min-height: 50px; }
+        #aviso-button { margin-top: 20px; color: #696868; font-size: 0.8rem; text-align: center; display: none; }
+        #aviso-button.visible { display: block; }
+        #bbcode-output { width: 250px; height: 50px; padding: 10px; font-family: monospace; overflow: auto; text-align: left; background-color: #303030; font-family: 'Courier New', Courier, monospace; }
+        #button-container { display: flex; justify-content: center; gap: 10px; margin-top: 10px; }
+        button { background-color: #f780ff; color: #2b2b2b; border: none; border-radius: 5px; padding: 10px 15px; cursor: pointer; transition: background-color 0.3s ease, transform 0.2s; font-size: 16px; }
+        button:hover { background-color: #e6b2ff; transform: scale(1.05); }
+        #rainbow-button { padding: 10px 15px; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; transition: background-color 0.3s ease, transform 0.2s; color: #5a5959; background-color: rgba(255, 255, 255, 0.7); box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); margin-bottom: 10px; }
+        .rainbow-active { background: linear-gradient(45deg, #ff007f, #ff7f00, #ffff00, #7fff00, #00ff7f, #00ffff, #007fff, #0000ff, #7f00ff, #ff00ff); color: white; border: none; text-shadow: -1px -1px 0px #FFF, -1px 1px 0px #FFF, 1px -1px 0px #FFF, 1px 0px 0px #FFF; font-size: 1.5rem; font-family: Helvetica, sans-serif; font-weight: bold; }
+        .rainbow-text { font-size: 1.5em; font-weight: bold; color: red; text-align: center; margin-top: 50px; background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet); background-size: 200% 200%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: rainbow 4s infinite, bgMove 8s infinite linear; }
+        button.active { border: none; color: white; font-weight: bold; }
+        button.inactive { opacity: 0.6; }
+        #rainbowGif { width: auto; height: 30px; display: none; }
+        #bold-italic-checkbox { display: grid; grid-template-columns: repeat(2, auto); gap: 10px 20px; justify-items: start; align-items: center;}
+        .links { display: flex; justify-content: center; margin-top: 20px; }
+        .links a { display: inline-block; text-decoration: none; font-size: small; color: white; background-color: #006eff; padding: 5px 10px; border-radius: 5px; margin-right: 10px; transition: background-color 0.3s, transform 0.3s; }
+        p { color: #888888; font-size: 12px; flex-direction: column; text-align: center; justify-content: center; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div style="background: linear-gradient(90deg, #ff69b4, #f9d423); color: #fff; padding: 15px; border-radius: 12px; font-family: 'Segoe UI', sans-serif; box-shadow: 0 4px 10px rgba(0,0,0,0.2); text-align: center; margin: 15px;">
+            <strong>✨ NOVIDADE! ✨</strong><br>
+Dê um novo visual ao seu texto! Agora dentre as opções de formatações, temos fontes como <strong>Script, Monospace e Small Caps</strong>. Experimente! 🚀<br>Quer sugerir novas fontes? Entre em contato comigo no BrasilWap clicando <a href="https://brasilwap.com/jonas">aqui</a>!
+        </div>
+        <h1 class="rainbow-text">[BBCODE]</h1>
+        <h1><div id="dica">Criado por Jonas</div></h1>
+        <div class="links">
+            <a href="https://brasilwap.com" target="_blank">BrasilWAP</a>
+            <a href="https://desejowap.net" target="_blank">DesejoWAP</a>
+            <a href="https://animacaowap.net" target="_blank">AnimaçãoWAP</a>
+        </div>
+        <div id="container">
+            <textarea id="gradient-text" rows="4" placeholder="Digite seu texto aqui..."></textarea>
+            <h1>Selecione abaixo a opção de cores:</h1>
+            <div id="color-option">
+                <button id="solid-button" class="color-type-btn">Cor Sólida</button>
+                <button id="two-color-button" class="color-type-btn selected">2 Cores</button>
+                <button id="three-color-button" class="color-type-btn">3 Cores</button>
+            </div>
+            <div id="color-picker-container">
+                <input type="color" class="color-picker" id="start-color" value="#E034B8">
+                <input type="color" class="color-picker" id="mid-color" value="#E2DA14" style="display: inline;">
+                <input type="color" class="color-picker" id="third-color" value="#DE534D" style="display: none;">
+                <img id="rainbowGif" src="nyan-cat.gif" alt="Nyan Cat" style="display: none;">
+            </div>
+            <div id="button-rainbow">
+                <button id="rainbow-button">RAINBOW!!!</button>
+            </div>
+            <h1>Formatação e Estilo da Fonte:</h1>
+            <div id="settings-container">
+                <select id="font-style-select">
+                    <option value="none">Fonte Normal</option>
+                    <option value="bold">Negrito (Bold)</option>
+                    <option value="italic">Itálico (Italic)</option>
+                    <option value="boldItalic">Negrito Itálico</option>
+                    <option value="script">Elegante (Script)</option>
+                    <option value="monospace">Monospace</option>
+                    <option value="smallcaps">Small Caps</option>
+                    <option value="circled">Circulado</option>
+                    <option value="squared">Quadrado</option>
+                </select>
+                <div id="bold-italic-checkbox" style="margin-top: 15px;">
+                    <input type="checkbox" id="bold-checkbox"><label for="bold-checkbox">Negrito [b]</label>
+                    <input type="checkbox" id="italic-checkbox"><label for="italic-checkbox">Itálico [i]</label>
+                    <input type="checkbox" id="sub-checkbox"><label for="sub-checkbox">Sublinhado [u]</label>
+                    <input type="checkbox" id="grande-checkbox"><label for="grande-checkbox">Grande [big]</label>
+                </div>
+            </div>
+            <div id="output-container">
+    		<h1>Prévia:</h1>
+    		<div id="output-text">Seu texto será exibido aqui.</div>
+    		<h1>Seu BBCode:</h1>
+    		<textarea id="bbcode-output" readonly></textarea>
+    		<div id="contadores">
+     		 <p>Caracteres: <span id="chars">0</span></p>
+      		 <p>Palavras: <span id="words">0</span></p>
+    		</div>
+	    </div>
+            <div id="button-container">
+                <button id="copy-button">Copiar</button>
+                <button id="clear-button">Limpar</button>
+            </div>
+            <div id="aviso-button"></div>
+        </div>
+        <p style="color: white; margin-top: 20px;">Criado por <a href="https://brasilwap.com/jonas">Jonas</a></p>
+        <h1 style="font-size: x-small; color: white;">Parcialmente baseado em <a href="https://bbcode.glitch.me">bbcode.glitch.me</a></h1>
+    </div>
+
+    <script type="module">
+        // --- 1. ELEMENTOS DO DOM ---
+        const gradientText = document.getElementById("gradient-text"),
+            startColorInput = document.getElementById("start-color"),
+            midColorInput = document.getElementById("mid-color"),
+            thirdColorInput = document.getElementById("third-color"),
+            boldCheckbox = document.getElementById("bold-checkbox"),
+            italicCheckbox = document.getElementById("italic-checkbox"),
+            subCheckbox = document.getElementById("sub-checkbox"),
+            grandeCheckbox = document.getElementById("grande-checkbox"),
+            fontStyleSelect = document.getElementById("font-style-select"),
+            copyButton = document.getElementById("copy-button"),
+            clearButton = document.getElementById("clear-button"),
+            rainbowButton = document.getElementById("rainbow-button"),
+            bbcodeOutput = document.getElementById("bbcode-output"),
+            solidButton = document.getElementById("solid-button"),
+            twoColorButton = document.getElementById("two-color-button"),
+            threeColorButton = document.getElementById("three-color-button"),
+            outputText = document.getElementById("output-text");
+
+        // --- 2. ESTADO DA APLICAÇÃO ---
+        let isRainbowActive = false, isTwoColorActive = false, isThreeColorActive = false, isSolidColorActive = true;
+
+        // --- 3. DADOS E FUNÇÕES DE CONVERSÃO ---
+        const unicodeMap = {
+            'bold':{'A':'𝐀','B':'𝐁','C':'𝐂','D':'𝐃','E':'𝐄','F':'𝐅','G':'𝐆','H':'𝐇','I':'𝐈','J':'𝐉','K':'𝐊','L':'𝐋','M':'𝐌','N':'𝐍','O':'𝐎','P':'𝐏','Q':'𝐐','R':'𝐑','S':'𝐒','T':'𝐓','U':'𝐔','V':'𝐕','W':'𝐖','X':'𝐗','Y':'𝐘','Z':'𝐙','a':'𝐚','b':'𝐛','c':'𝐜','d':'𝐝','e':'𝐞','f':'𝐟','g':'𝐠','h':'𝐡','i':'𝐢','j':'𝐣','k':'𝐤','l':'𝐥','m':'𝐦','n':'𝐧','o':'𝐨','p':'𝐩','q':'𝐪','r':'𝐫','s':'𝐬','t':'𝐭','u':'𝐮','v':'𝐯','w':'𝐰','x':'𝐱','y':'𝐲','z':'𝐳','0':'𝟎','1':'𝟏','2':'𝟐','3':'𝟑','4':'𝟒','5':'𝟓','6':'𝟔','7':'𝟕','8':'𝟖','9':'𝟗'},
+            'italic':{'A':'𝐴','B':'𝐵','C':'𝐶','D':'𝐷','E':'𝐸','F':'𝐹','G':'𝐺','H':'𝐻','I':'𝐼','J':'𝐽','K':'𝐾','L':'𝐿','M':'𝑀','N':'𝑁','O':'𝑂','P':'𝑃','Q':'𝑄','R':'𝑅','S':'𝑆','T':'𝑇','U':'𝑈','V':'𝑉','W':'𝑊','X':'𝑋','Y':'𝑌','Z':'𝑍','a':'𝑎','b':'𝑏','c':'𝑐','d':'𝑑','e':'𝑒','f':'𝑓','g':'𝑔','h':'ℎ','i':'𝑖','j':'𝑗','k':'𝑘','l':'𝑙','m':'𝑚','n':'𝑛','o':'𝑜','p':'𝑝','q':'𝑞','r':'𝑟','s':'𝑠','t':'𝑡','u':'𝑢','v':'𝑣','w':'𝑤','x':'𝑥','y':'𝑦','z':'𝑧'},
+            'boldItalic':{'A':'𝑨','B':'𝑩','C':'𝑪','D':'𝑫','E':'𝑬','F':'𝑭','G':'𝑮','H':'𝑯','I':'𝑰','J':'𝑱','K':'𝑲','L':'𝑳','M':'𝑴','N':'𝑵','O':'𝑶','P':'𝑷','Q':'𝑸','R':'𝑹','S':'𝑺','T':'𝑻','U':'𝑼','V':'𝑽','W':'𝑾','X':'𝑿','Y':'𝒀','Z':'𝒁','a':'𝒂','b':'𝒃','c':'𝒄','d':'𝒅','e':'𝒆','f':'𝒇','g':'𝒈','h':'𝒉','i':'𝒊','j':'𝒋','k':'𝒌','l':'𝒍','m':'𝒎','n':'𝒏','o':'𝒐','p':'𝒑','q':'𝒒','r':'𝒓','s':'𝒔','t':'𝒕','u':'𝒖','v':'𝒗','w':'𝒘','x':'𝒙','y':'𝒚','z':'𝒛'},
+            'circled':{'A':'Ⓐ','B':'Ⓑ','C':'Ⓒ','D':'Ⓓ','E':'Ⓔ','F':'Ⓕ','G':'Ⓖ','H':'Ⓗ','I':'Ⓘ','J':'Ⓙ','K':'Ⓚ','L':'Ⓛ','M':'Ⓜ','N':'Ⓝ','O':'Ⓞ','P':'Ⓟ','Q':'Ⓠ','R':'Ⓡ','S':'Ⓢ','T':'Ⓣ','U':'Ⓤ','V':'Ⓥ','W':'Ⓦ','X':'Ⓧ','Y':'Ⓨ','Z':'Ⓩ','a':'ⓐ','b':'ⓑ','c':'ⓒ','d':'ⓓ','e':'ⓔ','f':'ⓕ','g':'ⓖ','h':'ⓗ','i':'ⓘ','j':'ⓙ','k':'ⓚ','l':'ⓛ','m':'ⓜ','n':'ⓝ','o':'ⓞ','p':'ⓟ','q':'ⓠ','r':'ⓡ','s':'ⓢ','t':'ⓣ','u':'ⓤ','v':'ⓥ','w':'ⓦ','x':'ⓧ','y':'ⓨ','z':'ⓩ','0':'⓪','1':'①','2':'②','3':'③','4':'④','5':'⑤','6':'⑥','7':'⑦','8':'⑧','9':'⑨'},
+            'squared':{'A':'🄰','B':'🄱','C':'🄲','D':'🄳','E':'🄴','F':'🄵','G':'🄶','H':'🄷','I':'🄸','J':'🄹','K':'🄺','L':'🄻','M':'🄼','N':'🄽','O':'🄾','P':'🄿','Q':'🅀','R':'🅁','S':'🅂','T':'🅃','U':'🅄','V':'🅅','W':'🅆','X':'🅇','Y':'🅈','Z':'🅉'},
+            'monospace':{'A':'𝙰','B':'𝙱','C':'𝙲','D':'𝙳','E':'𝙴','F':'𝙵','G':'𝙶','H':'𝙷','I':'𝙸','J':'𝙹','K':'𝙺','L':'𝙻','M':'𝙼','N':'𝙽','O':'𝙾','P':'𝙿','Q':'𝚀','R':'𝚁','S':'𝚂','T':'𝚃','U':'𝚄','V':'𝚅','W':'𝚆','X':'𝚇','Y':'𝚈','Z':'𝚉','a':'𝚊','b':'𝚋','c':'𝚌','d':'𝚍','e':'𝚎','f':'𝚏','g':'𝚐','h':'𝚑','i':'𝚒','j':'𝚓','k':'𝚔','l':'𝚕','m':'𝚖','n':'𝚗','o':'𝚘','p':'𝚙','q':'𝚚','r':'𝚛','s':'𝚜','t':'𝚝','u':'𝚞','v':'𝚟','w':'𝚠','x':'𝚡','y':'𝚢','z':'𝚣','0':'𝟶','1':'𝟷','2':'𝟸','3':'𝟹','4':'𝟺','5':'𝟻','6':'𝟼','7':'𝟽','8':'𝟾','9':'𝟿'},
+            'smallcaps':{'a':'ᴀ','b':'ʙ','c':'ᴄ','d':'ᴅ','e':'ᴇ','f':'ꜰ','g':'ɢ','h':'ʜ','i':'ɪ','j':'ᴊ','k':'ᴋ','l':'ʟ','m':'ᴍ','n':'ɴ','o':'ᴏ','p':'ᴘ','r':'ʀ','s':'s','t':'ᴛ','u':'ᴜ','v':'ᴠ','w':'ᴡ','y':'ʏ','z':'ᴢ','A':'ᴀ','B':'ʙ','C':'ᴄ','D':'ᴅ','E':'ᴇ','F':'ꜰ','G':'ɢ','H':'ʜ','I':'ɪ','J':'ᴊ','K':'ᴋ','L':'ʟ','M':'ᴍ','N':'ɴ','O':'ᴏ','P':'ᴘ','R':'ʀ','S':'s','T':'ᴛ','U':'ᴜ','V':'ᴠ','W':'ᴡ','Y':'ʏ','Z':'ᴢ'},
+            'script':{'A':'𝒜','B':'ℬ','C':'𝒞','D':'𝒟','E':'ℰ','F':'ℱ','G':'𝒢','H':'ℋ','I':'ℐ','J':'𝒥','K':'𝒦','L':'ℒ','M':'ℳ','N':'𝒩','O':'𝒪','P':'𝒫','Q':'𝒬','R':'ℛ','S':'𝒮','T':'𝒯','U':'𝒰','V':'𝒱','W':'𝒲','X':'𝒳','Y':'𝒴','Z':'𝒵','a':'𝒶','b':'𝒷','c':'𝒸','d':'𝒹','e':'ℯ','f':'𝒻','g':'ℊ','h':'𝒽','i':'𝒾','j':'𝒿','k':'𝓀','l':'𝓁','m':'𝓂','n':'𝓃','o':'ℴ','p':'𝓅','q':'𝓆','r':'𝓇','s':'𝓈','t':'𝓉','u':'𝓊','v':'𝓋','w':'𝓌','x':'𝓍','y':'𝓎','z':'𝓏'}
+        };
+        
+        function convertToStyled(text, styleType) {
+            if (!styleType || styleType === 'none' || !unicodeMap[styleType]) return text;
+            const mapping = unicodeMap[styleType];
+            return text.split('').map(char => {
+                if (styleType === 'squared') {
+                    return mapping[char.toUpperCase()] || char;
+                }
+                return mapping[char] || char;
+            }).join('');
+        }
+
+        function interpolateColor(start, end, factor) { const startRGB = hexToRgb(start), endRGB = hexToRgb(end); const result = startRGB.map((val, i) => Math.round(val + factor * (endRGB[i] - val))); return rgbToHex(result[0], result[1], result[2]); }
+        function interpolateThreeColor(start, mid, end, factor) { return factor < 0.5 ? interpolateColor(start, mid, factor * 2) : interpolateColor(mid, end, (factor - 0.5) * 2); }
+        function hexToRgb(hex) { const bigint = parseInt(hex.slice(1), 16); return [(bigint >> 16) & 255, (bigint >> 8) & 255, bigint & 255]; }
+        function rgbToHex(r, g, b) { return `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1).toUpperCase()}`; }
+        function hslToHex(h, s, l) { s /= 100, l /= 100; const c = (1 - Math.abs(2 * l - 1)) * s, x = c * (1 - Math.abs(h / 60 % 2 - 1)), m = l - c / 2; let r, g, b; if (h < 60) { r = c; g = x; b = 0 } else if (h < 120) { r = x; g = c; b = 0 } else if (h < 180) { r = 0; g = c; b = x } else if (h < 240) { r = 0; g = x; b = c } else if (h < 300) { r = x; g = 0; b = c } else { r = c; g = 0; b = x } const rHex = Math.round((r + m) * 255).toString(16).padStart(2, "0"), gHex = Math.round((g + m) * 255).toString(16).padStart(2, "0"), bHex = Math.round((b + m) * 255).toString(16).padStart(2, "0"); return `#${rHex}${gHex}${bHex}` }
+
+        // --- 4. FUNÇÕES PRINCIPAIS DE GERAÇÃO ---
+
+        function generateBBcode(processedText) {
+            const isBold = boldCheckbox.checked, isItalic = italicCheckbox.checked, isSub = subCheckbox.checked, isGrande = grandeCheckbox.checked;
+            let bbcode = "";
+
+            if (isGrande) bbcode += "[big]";
+            if (isBold) bbcode += "[b]";
+            if (isItalic) bbcode += "[i]";
+            if (isSub) bbcode += "[u]";
+
+            if (isSolidColorActive) {
+                bbcode += `[cor=${startColorInput.value.slice(1)}]${processedText}[/cor]`;
+            } else {
+                let coloredText = Array.from(processedText).map((char, index) => {
+                    if (char === " ") return " ";
+                    let color;
+                    if (isRainbowActive) {
+                        color = hslToHex(index / processedText.length * 360, 100, 50);
+                    } else if (isTwoColorActive) {
+                        color = interpolateColor(startColorInput.value, midColorInput.value, index / Math.max(processedText.length - 1, 1));
+                    } else if (isThreeColorActive) {
+                        color = interpolateThreeColor(startColorInput.value, midColorInput.value, thirdColorInput.value, index / Math.max(processedText.length - 1, 1));
+                    }
+                    return `[cor=${color.slice(1)}]${char}[/cor]`;
+                }).join('');
+                bbcode += coloredText;
+            }
+
+            if (isSub) bbcode += "[/u]";
+            if (isItalic) bbcode += "[/i]";
+            if (isBold) bbcode += "[/b]";
+            if (isGrande) bbcode += "[/big]";
+
+            return bbcode;
+        }
+
+        function updateUI() {
+    // PASSO 1: Adicione uma constante para o limite de caracteres da prévia.
+    const previewCharLimit = 100; // Altere este valor como desejar
+
+    // 1. Pega os valores brutos dos inputs
+    const rawText = gradientText.value;
+    const selectedStyle = fontStyleSelect.value;
+    
+    // 2. Processa o texto com a fonte unicode
+    const processedText = convertToStyled(rawText.trim() || "Seu texto será exibido aqui.", selectedStyle);
+
+    // PASSO 2: Crie uma versão do texto apenas para a prévia, se o original for muito longo.
+    const previewText = processedText.length > previewCharLimit 
+        ? processedText.slice(0, previewCharLimit) + '...' 
+        : processedText;
+
+    // 3. Gera a prévia em HTML (MODIFICADO para usar 'previewText')
+    // PASSO 3: Altere Array.from(processedText) para Array.from(previewText)
+    let formattedPreview = Array.from(previewText).map((char, index) => {
+        if (char === " ") return " ";
+        let color;
+        // O restante da lógica de cor permanece o mesmo
+        if(isRainbowActive){ color = hslToHex(index/previewText.length * 360, 100, 50); }
+        else if(isTwoColorActive){ color = interpolateColor(startColorInput.value, midColorInput.value, index / Math.max(previewText.length - 1, 1)); }
+        else if(isThreeColorActive){ color = interpolateThreeColor(startColorInput.value, midColorInput.value, thirdColorInput.value, index / Math.max(previewText.length - 1, 1)); }
+        else { color = startColorInput.value; }
+        return `<span style="color: ${color};">${char}</span>`;
+    }).join('');
+    
+    let cssStyle = "";
+    if(boldCheckbox.checked) cssStyle += "font-weight: bold;";
+    if(italicCheckbox.checked) cssStyle += "font-style: italic;";
+    if(subCheckbox.checked) cssStyle += "text-decoration: underline;";
+    if(grandeCheckbox.checked) cssStyle += "font-size: 1.5em;";
+    
+    outputText.style.cssText = cssStyle;
+    outputText.innerHTML = formattedPreview;
+
+    // 4. Gera o BBCode e atualiza os campos (IMPORTANTE: ainda usa o 'processedText' completo)
+    const finalBBCode = generateBBcode(processedText);
+    bbcodeOutput.value = finalBBCode;
+    
+    // 5. Atualiza contadores (também usa os valores completos)
+    const charCount = finalBBCode.length;
+    const wordCount = rawText.trim() === "" ? 0 : rawText.trim().split(/\s+/).length;
+    document.getElementById('chars').textContent = charCount;
+    document.getElementById('words').textContent = wordCount;
+}
+
+        // --- 5. LÓGICA DE CONTROLE E EVENTOS ---
+
+        function activateButton(activeButton) {
+            [solidButton, twoColorButton, threeColorButton, rainbowButton].forEach(button => {
+                button.classList.toggle('active', button === activeButton);
+                button.classList.toggle('inactive', button !== activeButton);
+            });
+            const isRainbow = activeButton === rainbowButton;
+            rainbowButton.classList.toggle("rainbow-active", isRainbow);
+            rainbowGif.style.display = isRainbow ? "block" : "none";
+            startColorInput.style.display = isRainbow ? "none" : "inline";
+            midColorInput.style.display = activeButton === twoColorButton || activeButton === threeColorButton ? "inline" : "none";
+            thirdColorInput.style.display = activeButton === threeColorButton ? "inline" : "none";
+        }
+        
+        solidButton.addEventListener("click", () => { isRainbowActive = false; isTwoColorActive = false; isThreeColorActive = false; isSolidColorActive = true; activateButton(solidButton); updateUI(); });
+        twoColorButton.addEventListener("click", () => { isRainbowActive = false; isTwoColorActive = true; isThreeColorActive = false; isSolidColorActive = false; activateButton(twoColorButton); updateUI(); });
+        threeColorButton.addEventListener("click", () => { isRainbowActive = false; isTwoColorActive = false; isThreeColorActive = true; isSolidColorActive = false; activateButton(threeColorButton); updateUI(); });
+        rainbowButton.addEventListener("click", () => { isRainbowActive = true; isTwoColorActive = false; isThreeColorActive = false; isSolidColorActive = false; activateButton(rainbowButton); updateUI(); });
+
+        function showMessage(message) { const aviso = document.getElementById("aviso-button"); aviso.textContent = message; aviso.classList.add("visible"); setTimeout(() => aviso.classList.remove("visible"), 2000); }
+        copyButton.addEventListener("click", () => { navigator.clipboard.writeText(bbcodeOutput.value); showMessage("Código copiado para a área de transferência!"); });
+        clearButton.addEventListener("click", () => { gradientText.value = ""; updateUI(); showMessage("Campo limpo!"); });
+
+        // Eventos que disparam a atualização da UI
+        [gradientText, startColorInput, midColorInput, thirdColorInput, fontStyleSelect, boldCheckbox, italicCheckbox, subCheckbox, grandeCheckbox].forEach(el => {
+            el.addEventListener(el.type === 'checkbox' || el.tagName === 'SELECT' ? 'change' : 'input', updateUI);
+        });
+
+        // Inicialização da página
+        window.onload = () => { activateButton(twoColorButton); isTwoColorActive = true; isSolidColorActive = false; updateUI(); };
+    </script>
+    <script>
+        // Script do rotator de dicas (inalterado)
+        const dicas = ["Ao usar degradê com fontes estilizadas, o BBCode pode ficar muito longo.", "BBCodes compatíveis com os sites BrasilWAP, DesejoWAP e AnimaçãoWAP.", "Criado por Jonas"];
+        let indice = 0;
+        const elementoDica = document.getElementById("dica");
+        function mudarDica() { elementoDica.style.opacity = 0, setTimeout(() => { elementoDica.textContent = dicas[indice], indice = (indice + 1) % dicas.length, elementoDica.style.opacity = 1 }, 1e3) }
+        setTimeout(() => { elementoDica.style.opacity = 1 }, 1e3), setInterval(mudarDica, 8e3);
+    </script>
+</body>
+</html>
