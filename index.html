@@ -49,6 +49,15 @@
         button:hover { background-color: #e6b2ff; transform: scale(1.05); }
         #rainbow-button { padding: 10px 15px; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; transition: background-color 0.3s ease, transform 0.2s; color: #5a5959; background-color: rgba(255, 255, 255, 0.7); box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); margin-bottom: 10px; }
         .rainbow-active { background: linear-gradient(45deg, #ff007f, #ff7f00, #ffff00, #7fff00, #00ff7f, #00ffff, #007fff, #0000ff, #7f00ff, #ff00ff); color: white; border: none; text-shadow: -1px -1px 0px #FFF, -1px 1px 0px #FFF, 1px -1px 0px #FFF, 1px 0px 0px #FFF; font-size: 1.5rem; font-family: Helvetica, sans-serif; font-weight: bold; }
+        #dica {
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            color: #ffffff;
+            font-size: 12px;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
         @keyframes rainbow {
             0% { color: red; }
             14% { color: orange; }
