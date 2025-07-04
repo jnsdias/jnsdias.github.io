@@ -189,7 +189,7 @@
         position: relative;
         align-items: center;
         justify-content: center;
-        font-family: 'Courier New', Courier, monospace;
+        font-family: 'Courier New', Courier, monospace, "Noto Sans", sans-serif;
     }
 
     #color-picker-container {
@@ -258,7 +258,7 @@
         white-space: normal; /* Permite quebra de linha */
         overflow-wrap: break-word; /* Quebra palavras longas se necessário */
         color: #d3d3d3;
-        font-family: 'Courier New', Courier, monospace;
+        font-family: 'Courier New', Courier, monospace, "Noto Sans", sans-serif;
     
         /* Borda estilizada para combinar com o resto do site */
         border: 2px solid transparent; /* Começa transparente */
