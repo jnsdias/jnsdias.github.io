@@ -167,6 +167,7 @@
 
     #font-style-select { width: 250px; padding: 8px; margin-bottom: 10px; background-color: #303030; color: #d3d3d3; border: 1px solid #555; border-radius: 5px; font-family: Poppins, Arial, sans-serif; cursor: pointer; }
     #settings-container { display: flex; flex-direction: column; align-items: center; }
+    select { appearance: none; -webkit-appearance: none; background-size: 30px; background-position: right 10px center; transition: 250ms; }
 
     #bbcode-output,
     #gradient-text {
