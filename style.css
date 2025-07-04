@@ -165,6 +165,8 @@
         margin-right: 10px;
     }
 
+    #font-style-select { width: 250px; padding: 8px; margin-bottom: 10px; background-color: #303030; color: #d3d3d3; border: 1px solid #555; border-radius: 5px; font-family: Poppins, Arial, sans-serif; cursor: pointer; }
+
     #bbcode-output,
     #gradient-text {
         margin: 2px;
