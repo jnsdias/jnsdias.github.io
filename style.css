@@ -165,7 +165,7 @@
         margin-right: 10px;
     }
 
-    #font-style-select { width: 250px; padding: 8px; margin-bottom: 10px; background-color: #303030; color: #d3d3d3; border: 1px solid #555; border-radius: 5px; font-family: Poppins, Arial, sans-serif; cursor: pointer; }
+    #font-style-select { width: 250px; padding: 8px; margin-bottom: 10px; background-color: #303030; color: #d3d3d3; border: 1px solid #555; border-radius: 5px; font-family: Arial Unicode MS,lucida grande, tahoma, verdana, arial, sans-serif; cursor: pointer; }
     #settings-container { display: flex; flex-direction: column; align-items: center; }
 
     #bbcode-output,
@@ -189,7 +189,7 @@
         position: relative;
         align-items: center;
         justify-content: center;
-        font-family: 'Courier New', Courier, monospace, "Noto Sans", sans-serif;
+        font-family: Arial Unicode MS,lucida grande,tahoma,verdana,arial,sans-serif;
     }
 
     #color-picker-container {
@@ -258,7 +258,7 @@
         white-space: normal; /* Permite quebra de linha */
         overflow-wrap: break-word; /* Quebra palavras longas se necessário */
         color: #d3d3d3;
-        font-family: 'Courier New', Courier, monospace, "Noto Sans", sans-serif;
+        font-family: Arial Unicode MS,lucida grande,tahoma,verdana,arial,sans-serif;
     
         /* Borda estilizada para combinar com o resto do site */
         border: 2px solid transparent; /* Começa transparente */
