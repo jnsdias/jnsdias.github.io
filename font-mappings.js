@@ -243,34 +243,39 @@ function applyMapping(text, mapping, addSpace = false) {
     let convertedText = '';
     // Use Array.from para lidar corretamente com pares substitutos (emojis, etc.)
     Array.from(text).forEach(char => {
+        let mappedChar = null; // Inicialize mappedChar com null ou undefined
+
         // Tenta o caractere original
         if (mapping[char]) {
-            convertedText += mapping[char];
+            mappedChar = mapping[char];
         }
-        // Se o caractere original não tiver mapeamento, tenta sua versão maiúscula
+        // Se o caractere original não tiver mapeamento, tenta sua versão minúscula (se for maiúscula)
         else if (char.toLowerCase() !== char && mapping[char.toLowerCase()]) {
-            convertedText += mapping[char.toLowerCase()];
+            mappedChar = mapping[char.toLowerCase()];
         }
-        // Se o caractere original não tiver mapeamento, tenta sua versão minúscula
+        // Se ainda não tiver mapeamento, tenta sua versão maiúscula (se for minúscula)
         else if (char.toUpperCase() !== char && mapping[char.toUpperCase()]) {
-            convertedText += mapping[char.toUpperCase()];
+            mappedChar = mapping[char.toUpperCase()];
         }
-        // Se nada funcionar, mantém o caractere original
-        else {
-            convertedText += char;
-        }
+        
+        // Adiciona o caractere mapeado ou o original
+        convertedText += mappedChar || char;
 
-        // Adiciona espaço se necessário
-        if (addSpace && char !== ' ' && (mappedChar || (mapping[char] || mapping[char.toLowerCase()] || mapping[char.toUpperCase()]))) {
+        // Adiciona um espaço APENAS se 'addSpace' for true,
+        // o caractere original não for um espaço, E o caractere foi de fato mapeado (mappedChar é diferente de null/undefined)
+        if (addSpace && char !== ' ' && mappedChar) { // mappedChar agora é verificado corretamente
             convertedText += ' ';
         }
     });
 
-    // Remove o espaço extra no final, se houver
+    // Remove o espaço extra no final se o estilo adiciona espaços e o texto original não terminar com espaço
+    // E garante que não remova espaços de um texto vazio
     if (addSpace && convertedText.endsWith(' ') && text.trim().length > 0 && !text.endsWith(' ')) {
         convertedText = convertedText.trim();
+    } else if (addSpace && convertedText.endsWith(' ') && text.length === 0) { // Se o input era vazio, limpa o espaço se adicionado
+        convertedText = '';
     }
-
+    
     return convertedText;
 }
 
