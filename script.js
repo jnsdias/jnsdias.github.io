@@ -118,8 +118,8 @@ function updateUI() {
         } else if (isTwoColorActive) {
             color = interpolateColor(startColorInput.value, midColorInput.value, colorFactor);
         } else if (isThreeColorActive) {
-            // A interpolação de 3 cores funciona corretamente se o 'colorFactor' estiver mapeando o range 0-1
-            // sobre o comprimento TOTAL da string (charactersForColoring.length)
+            // Aqui usamos o terceiro input de cor se o modo for três cores
+            // O fator de cor é o mesmo, mas agora interpolamos entre três cores
             color = interpolateThreeColor(startColorInput.value, midColorInput.value, thirdColorInput.value, colorFactor);
         } else {
             color = startColorInput.value;
@@ -127,8 +127,7 @@ function updateUI() {
 
         formattedPreview += `<span style="color: ${color};">${char}</span>`;
     });
-    // ****************************************************************************************************
-
+    
     let cssStyle = "";
     if (boldCheckbox.checked) cssStyle += "font-weight: bold;";
     if (italicCheckbox.checked) cssStyle += "font-style: italic;";
@@ -179,25 +178,26 @@ clearButton.addEventListener("click", () => { gradientText.value = ""; updateUI(
 // --- LÓGICA PARA PREENCHER O SELECT DE FONTES ---
 const fontOptions = [
     { value: "none", text: "Fonte Normal" },
-    { value: "elegante_cursive_1", text: "Elegante (Cursive 1)" }, 
-    { value: "elegante_cursive_2", text: "Elegante (Cursive 2)" },
-    { value: "old_english", text: "Old English" },
-    { value: "medieval", text: "Medieval" },
-    { value: "double_struck", text: "Double Struck" },
+    { value: "bold", text: "Bold" },
     { value: "italic", text: "Italic" },
     { value: "boldItalic", text: "Bold Italic" },
+    { value: "smallcaps", text: "Small Caps" },
     { value: "monospace", text: "Mono Space" },
+    { value: "wide_text", text: "WideText" },
+    { value: "old_english", text: "Old English" },
+    { value: "medieval", text: "Medieval" },
+    { value: "elegante_cursive_1", text: "Elegante (Cursive 1)" }, 
+    { value: "elegante_cursive_2", text: "Elegante (Cursive 2)" },
+    { value: "double_struck", text: "Double Struck" },
     { value: "lunitools_bubbles", text: "Lunitools Bubbles" },
     { value: "round_black_box_bubbles", text: "Round Black Box Bubbles" },
-    { value: "dashbox_box", text: "Dashbox Box" },
-    { value: "inverted_squares", text: "Inverted Squares" },
     { value: "fat_text", text: "Fat Text" },
-    { value: "wide_text", text: "WideText" },
-    { value: "bold", text: "Bold" },
-    { value: "luni_tools_flip", text: "Luni Tools Flip" },
-    { value: "reverse_mirror", text: "Reverse Mirror" },
+    { value: "inverted_squares", text: "Inverted Squares" },
     { value: "squares", text: "Squares" },
-    { value: "luni_tools_mirror", text: "Luni Tools Mirror" }
+    { value: "dashbox_box", text: "Dashbox" },
+    { value: "reverse_mirror", text: "Reverse Mirror" },
+    { value: "luni_tools_mirror", text: "Luni Tools Mirror" },
+    { value: "luni_tools_flip", text: "Luni Tools Flip" },
 ];
 
 function populateFontStyleSelect() {
