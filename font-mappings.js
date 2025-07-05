@@ -241,38 +241,42 @@ function applyMapping(text, mapping, addSpace = false) {
         return text;
     }
     let convertedText = '';
-    // Use Array.from para lidar corretamente com pares substitutos (emojis, etc.)
+    
     Array.from(text).forEach(char => {
-        let mappedChar = null; // Inicialize mappedChar com null ou undefined
+        let finalCharToAdd = char; // Default to the original character
 
         // Tenta o caractere original
         if (mapping[char]) {
-            mappedChar = mapping[char];
+            finalCharToAdd = mapping[char];
         }
-        // Se o caractere original não tiver mapeamento, tenta sua versão minúscula (se for maiúscula)
+        // Se não encontrado, tenta sua versão minúscula (se diferente)
         else if (char.toLowerCase() !== char && mapping[char.toLowerCase()]) {
-            mappedChar = mapping[char.toLowerCase()];
+            finalCharToAdd = mapping[char.toLowerCase()];
         }
-        // Se ainda não tiver mapeamento, tenta sua versão maiúscula (se for minúscula)
+        // Se ainda não encontrado, tenta sua versão maiúscula (se diferente)
         else if (char.toUpperCase() !== char && mapping[char.toUpperCase()]) {
-            mappedChar = mapping[char.toUpperCase()];
+            finalCharToAdd = mapping[char.toUpperCase()];
         }
         
-        // Adiciona o caractere mapeado ou o original
-        convertedText += mappedChar || char;
+        convertedText += finalCharToAdd; // Adiciona o caractere determinado
 
         // Adiciona um espaço APENAS se 'addSpace' for true,
-        // o caractere original não for um espaço, E o caractere foi de fato mapeado (mappedChar é diferente de null/undefined)
-        if (addSpace && char !== ' ' && mappedChar) { // mappedChar agora é verificado corretamente
+        // o caractere original não for um espaço,
+        // E o caractere adicionado foi de fato diferente do original (ou seja, foi mapeado)
+        if (addSpace && char !== ' ' && finalCharToAdd !== char) { // This is the crucial change
             convertedText += ' ';
         }
     });
 
-    // Remove o espaço extra no final se o estilo adiciona espaços e o texto original não terminar com espaço
-    // E garante que não remova espaços de um texto vazio
-    if (addSpace && convertedText.endsWith(' ') && text.trim().length > 0 && !text.endsWith(' ')) {
-        convertedText = convertedText.trim();
-    } else if (addSpace && convertedText.endsWith(' ') && text.length === 0) { // Se o input era vazio, limpa o espaço se adicionado
+    // Remove trailing space if addSpace is true and the text is not empty or ends with original space
+    if (addSpace && convertedText.endsWith(' ') && text.trim().length > 0) {
+        // If the original text ended with a space, we want to preserve that final space.
+        // So, only trim if the original text did NOT end with a space.
+        if (!text.endsWith(' ')) {
+            convertedText = convertedText.trim();
+        }
+    } else if (addSpace && convertedText.endsWith(' ') && text.length === 0) {
+        // Handle case where input was empty, and a space might have been added by mistake
         convertedText = '';
     }
     
@@ -294,8 +298,8 @@ function convertToStyled(text, styleType) {
         case 'double': return applyMapping(text, doubleStruckMap);
         case 'circled': return applyMapping(text, lunitoolsBubblesMap);
         case 'squared': // squared é um caso especial que geralmente capitaliza
-            const squaredMap = {'A':'🄰','B':'🄱','C':'🄲','D':'🄳','E':'🄴','F':'🄵','G':'🄶','H':'🄷','I':'🄸','J':'🄹','K':'🄺','L':'🄻','M':'🄼','N':'🄽','O':'🄾','P':'🄿','Q':'🅀','R':'🅁','S':'🅂','T':'🅃','U':'🅄','V':'🅅','W':'🅆','X':'🅇','Y':'🅈','Z':'🅉',
-                                'a':'🄰','b':'🄱','c':'🄲','d':'🄳','e':'🄴','f':'🄵','g':'🄶','h':'🄷','i':'🄸','j':'🄹','k':'🄺','l':'🄻','m':'🄼','n':'🄽','o':'🄾','p':'🄿','q':'🅀','r':'🅁','s':'🅂','t':'🅃','u':'🅄','v':'🅅','w':'🅆','x':'🅇','y':'🅈','z':'🅉',
+            const squaredMap = {'A':'🄰','B':'🄱','C':'🄲','D':'🄳','E':'🄴','F':'🄵','G':'🄶','H':'🄷','I':'🄸','J':'🄹','K':'🄺','L':'🄻','M':'🄼','N':'🄽','O':'🄾','P':'🄿','Q':'🅀','R': '🅁', 'S': '🅂', 'T': '🅃', 'U': '🅄', 'V': '🅅', 'W': '🅆', 'X': '🅇', 'Y': '🅈', 'Z': '🅉',
+                                'a':'🄰','b':'🄱','c':'🄲','d':'🄳','e':'🄴','f':'🄵','g':'🄶','h':'🄷','i':'🄸','j':'🄹','k':'🄺','l':'🄻','m':'🄼','n':'🄽','o':'🄾','p':'🄿','q':'🅀','r': '🅁', 's': '🅂', 't': '🅃', 'u': '🅄', 'v': '🅅', 'w': '🅆', 'x': '🅇', 'y': '🅈', 'z': '🅉',
                                 '0': '0', '1': '1', '2': '2', '3': '3', '4': '4', '5': '5', '6': '6', '7': '7', '8': '8', '9': '9'};
             // A nova applyMapping já trata de tentar capitalizar se o mapeamento não for encontrado
             return applyMapping(text, squaredMap);
