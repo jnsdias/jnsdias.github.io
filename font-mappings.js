@@ -236,7 +236,7 @@ const reverseMirrorConfig = {
 reverseMirrorConfig._init();
 
 // --- Função auxiliar para aplicar mapeamentos gerais ---
-function applyMapping(text, mapping) {
+function applyMapping(text, mapping, addSpace = false) {
     if (!text || typeof text !== 'string' || !mapping) {
         return text;
     }
@@ -259,7 +259,18 @@ function applyMapping(text, mapping) {
         else {
             convertedText += char;
         }
+
+        // Adiciona espaço se necessário
+        if (addSpace && char !== ' ' && (mappedChar || (mapping[char] || mapping[char.toLowerCase()] || mapping[char.toUpperCase()]))) {
+            convertedText += ' ';
+        }
     });
+
+    // Remove o espaço extra no final, se houver
+    if (addSpace && convertedText.endsWith(' ') && text.trim().length > 0 && !text.endsWith(' ')) {
+        convertedText = convertedText.trim();
+    }
+
     return convertedText;
 }
 
@@ -291,7 +302,7 @@ function convertToStyled(text, styleType) {
         case 'double_struck': return applyMapping(text, doubleStruckMap);
         case 'lunitools_bubbles': return applyMapping(text, lunitoolsBubblesMap);
         case 'round_black_box_bubbles': return applyMapping(text, roundBlackBoxBubblesMap);
-        case 'dashbox_box': return applyMapping(text, dashboxBoxMap);
+        case 'dashbox_box': return applyMapping(text, dashboxBoxMap, true);
         case 'inverted_squares': return applyMapping(text, invertedSquaresMap);
         case 'fat_text': return applyMapping(text, fatTextMap);
         case 'wide_text': return applyMapping(text, wideTextMap);
