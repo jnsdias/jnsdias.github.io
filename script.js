@@ -31,7 +31,7 @@ function hslToHex(h, s, l) { s /= 100, l /= 100; const c = (1 - Math.abs(2 * l -
 
 // --- 4. FUNÇÕES PRINCIPAIS DE GERAÇÃO ---
 
-function generateBBcode(processedText) {
+function generateBBcode(processedText, originalText) {
     const isBold = boldCheckbox.checked, isItalic = italicCheckbox.checked, isSub = subCheckbox.checked, isGrande = grandeCheckbox.checked;
     let bbcode = "";
 
@@ -43,17 +43,34 @@ function generateBBcode(processedText) {
     if (isSolidColorActive) {
         bbcode += `[cor=${startColorInput.value.slice(1)}]${processedText}[/cor]`;
     } else {
-        let coloredText = Array.from(processedText).map((char, index) => {
-            if (char === " ") return " ";
-            let color;
-            if (isRainbowActive) {
-                color = hslToHex(index / processedText.length * 360, 100, 50);
-            } else if (isTwoColorActive) {
-                color = interpolateColor(startColorInput.value, midColorInput.value, index / Math.max(processedText.length - 1, 1));
-            } else if (isThreeColorActive) {
-                color = interpolateThreeColor(startColorInput.value, midColorInput.value, thirdColorInput.value, index / Math.max(processedText.length - 1, 1));
+        // Use Array.from(originalText) para iterar pelos caracteres originais
+        // e obter os índices corretos para o gradiente.
+        // Em seguida, use o caractere ESTILIZADO (do processedText) para a saída.
+        let coloredText = Array.from(originalText).map((originalChar, index) => {
+            const styledChar = Array.from(processedText)[index]; // Pegue o caractere já estilizado correspondente
+
+            if (originalChar === " ") { // Ainda verifica o espaço no original
+                return " ";
             }
-            return `[cor=${color.slice(1)}]${char}[/cor]`;
+            if (!styledChar) { // Fallback se processedText for mais curto por algum motivo
+                 return originalChar;
+            }
+
+            let color;
+            // *************** MUDANÇA AQUI PARA O CÁLCULO DA COR NO BBCODE ***************
+            // O cálculo do fator de cor deve se basear no índice do caractere ORIGINAL
+            // e no comprimento ORIGINAL do texto.
+            const factor = index / Math.max(originalText.length - 1, 1);
+
+            if (isRainbowActive) {
+                color = hslToHex(factor * 360, 100, 50);
+            } else if (isTwoColorActive) {
+                color = interpolateColor(startColorInput.value, midColorInput.value, factor);
+            } else if (isThreeColorActive) {
+                color = interpolateThreeColor(startColorInput.value, midColorInput.value, thirdColorInput.value, factor);
+            }
+            // *****************************************************************************
+            return `[cor=${color.slice(1)}]${styledChar}[/cor]`; // Use o caractere ESTILIZADO aqui
         }).join('');
         bbcode += coloredText;
     }
@@ -66,39 +83,64 @@ function generateBBcode(processedText) {
     return bbcode;
 }
 
+// script.js
+
 function updateUI() {
     const previewCharLimit = 100;
     const rawText = gradientText.value;
     const selectedStyleKey = fontStyleSelect.value;
 
-    const processedText = convertToStyled(rawText, selectedStyleKey); // convertToStyled vem de font-mappings.js
+    const processedText = convertToStyled(rawText, selectedStyleKey);
 
-    const previewText = processedText.length > previewCharLimit
-        ? processedText.slice(0, previewCharLimit) + '...'
-        : processedText;
+    // *************** MUDANÇA AQUI: Calcule o índice de cor com base no texto COMPLETO ***************
+    // A prévia será uma "janela" do gradiente total.
+    let formattedPreview = '';
 
-    let formattedPreview = Array.from(previewText).map((char, index) => {
-        if (char === " ") return " ";
+    // Iteramos sobre o processedText COMPLETO para aplicar as cores
+    // e só então cortamos para o previewText
+    const charactersForColoring = Array.from(processedText);
+    const charactersForPreview = Array.from(processedText.slice(0, previewCharLimit)); // Caracteres reais da prévia
+
+
+    charactersForPreview.forEach((char, indexInPreview) => {
+        if (char === " ") {
+            formattedPreview += " ";
+            return;
+        }
+
         let color;
-        if(isRainbowActive){ color = hslToHex(index/previewText.length * 360, 100, 50); }
-        else if(isTwoColorActive){ color = interpolateColor(startColorInput.value, midColorInput.value, index / Math.max(previewText.length - 1, 1)); }
-        else if(isThreeColorActive){ color = interpolateThreeColor(startColorInput.value, midColorInput.value, thirdColorInput.value, index / Math.max(previewText.length - 1, 1)); }
-        else { color = startColorInput.value; }
-        return `<span style="color: ${color};">${char}</span>`;
-    }).join('');
-    
+        // O índice para o cálculo da cor deve ser o 'indexInPreview'
+        // Mas a base do cálculo (o "100%" do gradiente) deve ser o comprimento total do texto, 'charactersForColoring.length'
+        const colorFactor = indexInPreview / Math.max(charactersForColoring.length - 1, 1);
+
+        if (isRainbowActive) {
+            color = hslToHex(colorFactor * 360, 100, 50);
+        } else if (isTwoColorActive) {
+            color = interpolateColor(startColorInput.value, midColorInput.value, colorFactor);
+        } else if (isThreeColorActive) {
+            // A interpolação de 3 cores funciona corretamente se o 'colorFactor' estiver mapeando o range 0-1
+            // sobre o comprimento TOTAL da string (charactersForColoring.length)
+            color = interpolateThreeColor(startColorInput.value, midColorInput.value, thirdColorInput.value, colorFactor);
+        } else {
+            color = startColorInput.value;
+        }
+
+        formattedPreview += `<span style="color: ${color};">${char}</span>`;
+    });
+    // ****************************************************************************************************
+
     let cssStyle = "";
-    if(boldCheckbox.checked) cssStyle += "font-weight: bold;";
-    if(italicCheckbox.checked) cssStyle += "font-style: italic;";
-    if(subCheckbox.checked) cssStyle += "text-decoration: underline;";
-    if(grandeCheckbox.checked) cssStyle += "font-size: 1.5em;";
-    
+    if (boldCheckbox.checked) cssStyle += "font-weight: bold;";
+    if (italicCheckbox.checked) cssStyle += "font-style: italic;";
+    if (subCheckbox.checked) cssStyle += "text-decoration: underline;";
+    if (grandeCheckbox.checked) cssStyle += "font-size: 1.5em;";
+
     outputText.style.cssText = cssStyle;
     outputText.innerHTML = formattedPreview;
 
-    const finalBBCode = generateBBcode(processedText);
+    const finalBBCode = generateBBcode(processedText, rawText);
     bbcodeOutput.value = finalBBCode;
-    
+
     const charCount = finalBBCode.length;
     const wordCount = rawText.trim() === "" ? 0 : rawText.trim().split(/\s+/).length;
     document.getElementById('chars').textContent = charCount;
