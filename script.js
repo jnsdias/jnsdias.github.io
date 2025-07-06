@@ -137,8 +137,6 @@ function generateBBcode(processedText, originalText) {
     return bbcode;
 }
 
-// script.js (dentro da função updateUI)
-
 function updateUI() {
     const previewCharLimit = 100;
     const rawText = gradientText.value;
@@ -171,14 +169,12 @@ function updateUI() {
             color = startColorInput.value;
         }
 
-        // --- CORREÇÃO AQUI para aplicar o estilo de contorno a cada <span> individualmente ---
-        let spanStyle = `color: ${color};`; // Estilo base para o <span> individual
+        let spanStyle = `color: ${color};`;
         if (isContornoActive) {
             const contornoColorName = selectedContornoColorNameInput.value;
             spanStyle += `background-color: ${contornoColorName}; padding: 0 1px;`;
         }
         formattedPreview += `<span style="${spanStyle}">${char}</span>`;
-        // --- FIM DA CORREÇÃO ---
     });
     
     let cssStyle = ""; 
@@ -215,6 +211,7 @@ function selectContornoColor(hexValue) {
     contornoButton.classList.add('active'); // Ativa o botão
     contornoButton.style.backgroundColor = hexValue; // Muda a cor de fundo do botão
     contornoButton.style.color = getContrastColor(hexValue); // Garante contraste do texto
+    contornoButton.textContent = 'DESATIVAR'; // Muda o texto do botão para "DESATIVAR"
     
     // Remove seleção de todos os quadrinhos e adiciona ao selecionado
     document.querySelectorAll('.modal-color-box').forEach(box => {
@@ -301,6 +298,7 @@ contornoButton.addEventListener('click', () => {
         contornoButton.classList.remove('active');
         contornoButton.style.backgroundColor = ''; // Volta à cor padrão do CSS
         contornoButton.style.color = '#d3d3d3'; // Volta à cor padrão do texto
+        contornoButton.textContent = 'ATIVAR'; // Muda o texto do botão
         updateUI();
     } else {
         // Se não está ativo, abrir o modal para seleção
