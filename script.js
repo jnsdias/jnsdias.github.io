@@ -240,21 +240,105 @@ function getContrastColor(hexcolor) {
     return luminance > 0.5 ? 'black' : 'white';
 }
 
+// Função para converter RGB para HSL
+function rgbToHsl(r, g, b) {
+    r /= 255; g /= 255; b /= 255;
+
+    const max = Math.max(r, g, b);
+    const min = Math.min(r, g, b);
+    let h, s, l = (max + min) / 2;
+
+    if (max === min) {
+        h = s = 0; // achromatic
+    } else {
+        const d = max - min;
+        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+        switch (max) {
+            case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+            case g: h = (b - r) / d + 2; break;
+            case b: h = (r - g) / d + 4; break;
+        }
+        h /= 6;
+    }
+    return {
+        h: h * 360, // Matiz de 0 a 360
+        s: s * 100, // Saturação de 0 a 100
+        l: l * 100  // Luminosidade de 0 a 100
+    };
+}
 
 function populateContornoModalPalette() {
     contornoModalPalette.innerHTML = '';
     
-    // Converte o objeto hexToColorName para um array de HEXs para iterar
-    const colors = Object.keys(hexToColorName); 
+    let colorsForPalette = [];
+    for (const hexValue in hexToColorName) {
+        const rgb = hexToRgb(hexValue);
+        const hsl = rgbToHsl(rgb[0], rgb[1], rgb[2]);
+        colorsForPalette.push({
+            hex: hexValue,
+            name: hexToColorName[hexValue],
+            hsl: hsl
+        });
+    }
 
-    colors.forEach(hexValue => {
+    // --- Classificar as cores (Refinado para preto/cinzas/branco contíguos) ---
+    colorsForPalette.sort((a, b) => {
+        const h_a = a.hsl.h;
+        const s_a = a.hsl.s;
+        const l_a = a.hsl.l;
+
+        const h_b = b.hsl.h;
+        const s_b = b.hsl.s;
+        const l_b = b.hsl.l;
+
+        // --- Definir se a cor é acromática ou quase acromática ---
+        // Uma cor é considerada "acromática" ou "quase acromática" se:
+        // 1. Sua saturação é muito baixa (s < 10) - isso pega cinzas verdadeiros.
+        // 2. Sua luminosidade é muito próxima de 0 (preto, l < 5).
+        // 3. Sua luminosidade é muito próxima de 100 (branco, l > 95).
+        const isA_achromatic_like = (s_a < 10) || (l_a < 5) || (l_a > 95);
+        const isB_achromatic_like = (s_b < 10) || (l_b < 5) || (l_b > 95);
+
+        // --- Ordem Primária: Agrupamento Acromático/Cromático ---
+        // Se ambos são acromáticos/quase acromáticos, ordene por luminosidade.
+        if (isA_achromatic_like && isB_achromatic_like) {
+            return l_a - l_b; // Preto (L=0) -> Cinzas -> Branco (L=100)
+        }
+        // Se apenas A é acromático/quase acromático, A vem antes das cores cromáticas.
+        if (isA_achromatic_like && !isB_achromatic_like) {
+            return -1;
+        }
+        // Se apenas B é acromático/quase acromático, B vem antes das cores cromáticas.
+        if (!isA_achromatic_like && isB_achromatic_like) {
+            return 1;
+        }
+
+        // --- Ordem para Cores Cromáticas (se nenhuma for acromática/quase acromática) ---
+        // 1. Matiz (H) - Agrupar por cor (vermelho, laranja, amarelo, etc.)
+        if (h_a !== h_b) {
+            return h_a - h_b;
+        }
+
+        // 2. Luminosidade (L) - Do mais escuro para o mais claro (dentro do mesmo Matiz)
+        if (l_a !== l_b) {
+            return l_a - l_b;
+        }
+        
+        // 3. Saturação (S) - Do menos saturado para o mais saturado (como critério de desempate final)
+        return s_a - s_b;
+    });
+
+    // Agora, crie os elementos da paleta com as cores classificadas
+    colorsForPalette.forEach(colorData => {
         const colorBox = document.createElement('div');
         colorBox.classList.add('modal-color-box');
-        colorBox.style.backgroundColor = hexValue;
+        colorBox.style.backgroundColor = colorData.hex;
+        colorBox.title = colorData.name; // Adiciona o nome da cor como tooltip
 
-        colorBox.addEventListener('click', () => selectContornoColor(hexValue));
+        colorBox.addEventListener('click', () => selectContornoColor(colorData.hex, true));
         contornoModalPalette.appendChild(colorBox);
     });
+
 }
 
 // --- 5. LÓGICA DE CONTROLE E EVENTOS ---
