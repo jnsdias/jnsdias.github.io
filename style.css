@@ -346,7 +346,7 @@
     .rainbow-active {
         background: linear-gradient(45deg, #ff007f, #ff7f00, #ffff00, #7fff00, #00ff7f, #00ffff, #007fff, #0000ff, #7f00ff, #ff00ff);
         color: white; /* Define a cor do texto como branca para melhor visibilidade */
-        border: 2px solid transparent; 
+        border: 2px solid; 
         text-shadow: 
                    -1px -1px 0px #FFF, 
                    -1px 1px 0px #FFF,                    
