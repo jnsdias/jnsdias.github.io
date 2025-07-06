@@ -45,6 +45,19 @@ Dê um novo visual ao seu texto! Agora dentre as opções de formatações, temo
             <div id="button-rainbow">
                 <button id="rainbow-button">RAINBOW!!!</button>
             </div>
+
+            <h1>Contorno da Fonte:</h1>
+            <button id="contorno-button" class="color-type-btn">CONTORNO</button>
+            <input type="hidden" id="selected-contorno-color-name" value="black" /> 
+            <div id="contorno-modal-overlay" class="modal-overlay">
+                <div id="contorno-modal-content" class="modal-content">
+                    <h2>Selecione a Cor do Contorno</h2>
+                    <div id="contorno-color-palette-modal" class="modal-color-palette">
+                        </div>
+                    <button id="close-contorno-modal" class="modal-close-btn">Fechar</button>
+                </div>
+            </div>
+
             <h1>Formatação e Estilo da Fonte:</h1>
             <div id="settings-container">
                 <select id="font-style-select">
@@ -80,7 +93,6 @@ Dê um novo visual ao seu texto! Agora dentre as opções de formatações, temo
     <script src="script.js"></script>
     
     <script>
-        // Script do rotator de dicas (inalterado)
         const dicas = ["Ao usar degradê com fontes estilizadas, o BBCode pode ficar muito longo.", "BBCodes compatíveis com os sites BrasilWAP, DesejoWAP e AnimaçãoWAP.", "Criado por Jonas"];
         let indice = 0;
         const elementoDica = document.getElementById("dica");

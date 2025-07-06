@@ -383,6 +383,110 @@
         50% { background-position: 100% 50%; }
         100% { background-position: 0% 50%; }
     }
+
+    /* Estilos para o Modal de Contorno */
+    .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7); /* Fundo semi-transparente escuro */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000; /* Garante que o modal fique por cima de tudo */
+        visibility: hidden; /* Inicialmente escondido */
+        opacity: 0; /* Para transição suave */
+        transition: visibility 0.3s, opacity 0.3s;
+    }
+
+    .modal-overlay.visible {
+        visibility: visible;
+        opacity: 1;
+    }
+
+    .modal-content {
+        background-color: #2b2b2b;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        max-width: 90%;
+        max-height: 90%;
+        overflow-y: auto; /* Adiciona barra de rolagem se o conteúdo exceder */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        color: #d3d3d3;
+    }
+
+    .modal-content h2 {
+        color: #f780ff;
+        margin-bottom: 15px;
+        font-size: 1.2em;
+    }
+
+    .modal-color-palette {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px; /* Espaço entre os quadrinhos de cor */
+        justify-content: center;
+        max-height: 300px; /* Altura máxima antes de a barra de rolagem aparecer */
+        overflow-y: auto; /* Ativa a barra de rolagem vertical */
+        padding-right: 10px; /* Para dar espaço à barra de rolagem */
+        padding-bottom: 10px;
+    }
+
+    .modal-color-box {
+        width: 40px; /* Tamanho dos quadrinhos de cor */
+        height: 40px;
+        border-radius: 5px;
+        cursor: pointer;
+        border: 2px solid transparent; /* Borda padrão transparente */
+        transition: border-color 0.2s ease, transform 0.2s;
+    }
+
+    .modal-color-box:hover {
+        transform: scale(1.1); /* Efeito de zoom ao passar o mouse */
+    }
+
+    .modal-color-box.selected {
+        border-color: #f780ff; /* Borda de destaque para a cor selecionada */
+        box-shadow: 0 0 10px 2px rgba(247, 128, 255, 0.5); /* Sombra para destaque */
+    }
+
+    .modal-close-btn {
+        background-color: #007bff; /* Cor do botão fechar */
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 20px;
+        font-size: 1em;
+    }
+
+    .modal-close-btn:hover {
+        background-color: #0056b3;
+    }
+
+    /* Estilos para o botão CONTORNO */
+    #contorno-button {
+        background-color: rgba(255, 255, 255, 0.1); /* Cor de fundo inicial do botão CONTORNO */
+        color: #d3d3d3; /* Cor do texto inicial */
+        border: 1px solid #555;
+        padding: 10px 20px;
+        margin-bottom: 15px;
+        font-weight: bold;
+    }
+
+    #contorno-button.active {
+        /* Cor de fundo será definida dinamicamente pelo JS */
+        color: white;
+        border-color: #f780ff;
+        box-shadow: 0 0 10px 2px rgba(247, 128, 255, 0.5);
+        transform: scale(1.05);
+    }
     
     .rainbow-text {
         font-size: 1.5em;

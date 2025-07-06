@@ -19,10 +19,63 @@ const gradientText = document.getElementById("gradient-text"),
     threeColorButton = document.getElementById("three-color-button"),
     outputText = document.getElementById("output-text");
 
+    // --- Novos elementos para o Contorno ---
+    const contornoButton = document.getElementById("contorno-button");
+    const contornoModalOverlay = document.getElementById("contorno-modal-overlay");
+    const contornoModalPalette = document.getElementById("contorno-color-palette-modal");
+    const closeContornoModalButton = document.getElementById("close-contorno-modal");
+    const selectedContornoColorNameInput = document.getElementById("selected-contorno-color-name");
+
+
 // --- 2. ESTADO DA APLICAÇÃO ---
 let isRainbowActive = false, isTwoColorActive = false, isThreeColorActive = false, isSolidColorActive = true;
 
 // --- 3. FUNÇÕES DE CONVERSÃO DE CORES (mantidas aqui) ---
+
+// Mapeamento de HEX para nomes de cores CSS (Exemplo, mova para font-mappings.js se quiser)
+const hexToColorName = {
+    '#FF0000': 'red', '#008000': 'green', '#0000FF': 'blue', '#FFFF00': 'yellow', '#FFA500': 'orange',
+    '#800080': 'purple', '#FFFFFF': 'white', '#000000': 'black', '#C0C0C0': 'silver', '#808080': 'gray',
+    '#F0F8FF': 'aliceblue', '#FAEBD7': 'antiquewhite', '#00FFFF': 'aqua', '#7FFFD4': 'aquamarine',
+    '#F0FFFF': 'azure', '#F5F5DC': 'beige', '#FFE4C4': 'bisque', '#FFEBCD': 'blanchedalmond',
+    '#8A2BE2': 'blueviolet', '#A52A2A': 'brown', '#DEB887': 'burlywood', '#5F9EA0': 'cadetblue',
+    '#7FFF00': 'chartreuse', '#D2691E': 'chocolate', '#FF7F50': 'coral', '#6495ED': 'cornflowerblue',
+    '#FFF8DC': 'cornsilk', '#DC143C': 'crimson', '#00008B': 'darkblue', '#008B8B': 'darkcyan',
+    '#B8860B': 'darkgoldenrod', '#A9A9A9': 'darkgray', '#006400': 'darkgreen', '#BDB76B': 'darkkhaki',
+    '#8B008B': 'darkmagenta', '#556B2F': 'darkolivegreen', '#FF8C00': 'darkorange', '#9932CC': 'darkorchid',
+    '#8B0000': 'darkred', '#E9967A': 'darksalmon', '#8FBC8F': 'darkseagreen', '#483D8B': 'darkslateblue',
+    '#2F4F4F': 'darkslategray', '#00CED1': 'darkturquoise', '#9400D3': 'darkviolet', '#FF1493': 'deeppink',
+    '#00BFFF': 'deepskyblue', '#696969': 'dimgray', '#1E90FF': 'dodgerblue', '#B22222': 'firebrick',
+    '#FFFAF0': 'floralwhite', '#228B22': 'forestgreen', '#FF00FF': 'fuchsia', '#DCDCDC': 'gainsboro',
+    '#F8F8FF': 'ghostwhite', '#FFD700': 'gold', '#DAA520': 'goldenrod', '#ADFF2F': 'greenyellow',
+    '#F0FFF0': 'honeydew', '#FF69B4': 'hotpink', '#CD5C5C': 'indianred', '#4B0082': 'indigo',
+    '#FFFFF0': 'ivory', '#F0E68C': 'khaki', '#E6E6FA': 'lavender', '#FFF0F5': 'lavenderblush',
+    '#7CFC00': 'lawngreen', '#FFFACD': 'lemonchiffon', '#ADD8E6': 'lightblue', '#F08080': 'lightcoral',
+    '#E0FFFF': 'lightcyan', '#FAFAD2': 'lightgoldenrodyellow', '#90EE90': 'lightgreen', '#D3D3D3': 'lightgray',
+    '#FFB6C1': 'lightpink', '#FFA07A': 'lightsalmon', '#20B2AA': 'lightseagreen', '#87CEFA': 'lightskyblue',
+    '#778899': 'lightslategray', '#B0C4DE': 'lightsteelblue', '#D8BFD8': 'thistle', '#9ACD32': 'yellowgreen',
+    '#BA55D3': 'mediumorchid', '#9370DB': 'mediumpurple', '#3CB371': 'mediumseagreen', '#7B68EE': 'mediumslateblue',
+    '#00FA9A': 'mediumspringgreen', '#48D1CC': 'mediumturquoise', '#C71585': 'mediumvioletred',
+    '#191970': 'midnightblue', '#F5FFFA': 'mintcream', '#FFE4E1': 'mistyrose', '#FFE4B5': 'moccasin',
+    '#FFDEAD': 'navajowhite', '#000080': 'navy', '#FDF5E6': 'oldlace', '#808000': 'olive', '#6B8E23': 'olivedrab',
+    '#FF4500': 'orangered', '#DA70D6': 'orchid', '#EEE8AA': 'palegoldenrod', '#98FB98': 'palegreen',
+    '#AFEEEE': 'paleturquoise', '#DB7093': 'palevioletred', '#FFEFD5': 'papayawhip', '#FFDAB9': 'peachpuff',
+    '#CD853F': 'peru', '#FFC0CB': 'pink', '#DDA0DD': 'plum', '#B0E0E6': 'powderblue',
+    '#663399': 'rebeccapurple', '#BC8F8F': 'rosybrown', '#4169E1': 'royalblue', '#8B4513': 'saddlebrown',
+    '#FA8072': 'salmon', '#F4A460': 'sandybrown', '#2E8B57': 'seagreen', '#FFF5EE': 'seashell', '#A0522D': 'sienna',
+    '#87CEEB': 'skyblue', '#6A5ACD': 'slateblue', '#708090': 'slategray', '#FFFAFA': 'snow', '#00FF7F': 'springgreen',
+    '#4682B4': 'steelblue', '#D2B48C': 'tan', '#008080': 'teal', '#FF6347': 'tomato', '#40E0D0': 'turquoise',
+    '#EE82EE': 'violet', '#F5DEB3': 'wheat', '#F5F5F5': 'whitesmoke'
+};
+
+function getColorNameFromHex(hex) {
+    const normalizedHex = hex.toUpperCase();
+    if (hexToColorName[normalizedHex]) {
+        return hexToColorName[normalizedHex];
+    }
+    return 'white'; // Fallback
+}
+
 function interpolateColor(start, end, factor) { const startRGB = hexToRgb(start), endRGB = hexToRgb(end); const result = startRGB.map((val, i) => Math.round(val + factor * (endRGB[i] - val))); return rgbToHex(result[0], result[1], result[2]); }
 function interpolateThreeColor(start, mid, end, factor) { return factor < 0.5 ? interpolateColor(start, mid, factor * 2) : interpolateColor(mid, end, (factor - 0.5) * 2); }
 function hexToRgb(hex) { const bigint = parseInt(hex.slice(1), 16); return [(bigint >> 16) & 255, (bigint >> 8) & 255, bigint & 255]; }
@@ -40,26 +93,27 @@ function generateBBcode(processedText, originalText) {
     if (isItalic) bbcode += "[i]";
     if (isSub) bbcode += "[u]";
 
+    if (isContornoActive) {
+        const contornoColorName = selectedContornoColorNameInput.value;
+        bbcode += `[contorno=${contornoColorName}]`;
+    }
+
     if (isSolidColorActive) {
         bbcode += `[cor=${startColorInput.value.slice(1)}]${processedText}[/cor]`;
     } else {
-        // Use Array.from(originalText) para iterar pelos caracteres originais
-        // e obter os índices corretos para o gradiente.
-        // Em seguida, use o caractere ESTILIZADO (do processedText) para a saída.
+        
         let coloredText = Array.from(originalText).map((originalChar, index) => {
-            const styledChar = Array.from(processedText)[index]; // Pegue o caractere já estilizado correspondente
+            const styledChar = Array.from(processedText)[index]; 
 
-            if (originalChar === " ") { // Ainda verifica o espaço no original
+            if (originalChar === " ") { 
                 return " ";
             }
-            if (!styledChar) { // Fallback se processedText for mais curto por algum motivo
+            if (!styledChar) {
                  return originalChar;
             }
 
             let color;
-            // *************** MUDANÇA AQUI PARA O CÁLCULO DA COR NO BBCODE ***************
-            // O cálculo do fator de cor deve se basear no índice do caractere ORIGINAL
-            // e no comprimento ORIGINAL do texto.
+            
             const factor = index / Math.max(originalText.length - 1, 1);
 
             if (isRainbowActive) {
@@ -69,12 +123,12 @@ function generateBBcode(processedText, originalText) {
             } else if (isThreeColorActive) {
                 color = interpolateThreeColor(startColorInput.value, midColorInput.value, thirdColorInput.value, factor);
             }
-            // *****************************************************************************
             return `[cor=${color.slice(1)}]${styledChar}[/cor]`; // Use o caractere ESTILIZADO aqui
         }).join('');
         bbcode += coloredText;
     }
 
+    if (isContornoActive) bbcode += "[/contorno]";
     if (isSub) bbcode += "[/u]";
     if (isItalic) bbcode += "[/i]";
     if (isBold) bbcode += "[/b]";
@@ -83,7 +137,7 @@ function generateBBcode(processedText, originalText) {
     return bbcode;
 }
 
-// script.js
+// script.js (dentro da função updateUI)
 
 function updateUI() {
     const previewCharLimit = 100;
@@ -92,12 +146,8 @@ function updateUI() {
 
     const processedText = convertToStyled(rawText, selectedStyleKey);
 
-    // *************** MUDANÇA AQUI: Calcule o índice de cor com base no texto COMPLETO ***************
-    // A prévia será uma "janela" do gradiente total.
     let formattedPreview = '';
 
-    // Iteramos sobre o processedText COMPLETO para aplicar as cores
-    // e só então cortamos para o previewText
     const charactersForColoring = Array.from(processedText);
     const charactersForPreview = Array.from(processedText.slice(0, previewCharLimit)); // Caracteres reais da prévia
 
@@ -109,8 +159,6 @@ function updateUI() {
         }
 
         let color;
-        // O índice para o cálculo da cor deve ser o 'indexInPreview'
-        // Mas a base do cálculo (o "100%" do gradiente) deve ser o comprimento total do texto, 'charactersForColoring.length'
         const colorFactor = indexInPreview / Math.max(charactersForColoring.length - 1, 1);
 
         if (isRainbowActive) {
@@ -118,24 +166,29 @@ function updateUI() {
         } else if (isTwoColorActive) {
             color = interpolateColor(startColorInput.value, midColorInput.value, colorFactor);
         } else if (isThreeColorActive) {
-            // Aqui usamos o terceiro input de cor se o modo for três cores
-            // O fator de cor é o mesmo, mas agora interpolamos entre três cores
             color = interpolateThreeColor(startColorInput.value, midColorInput.value, thirdColorInput.value, colorFactor);
         } else {
             color = startColorInput.value;
         }
 
-        formattedPreview += `<span style="color: ${color};">${char}</span>`;
+        // --- CORREÇÃO AQUI para aplicar o estilo de contorno a cada <span> individualmente ---
+        let spanStyle = `color: ${color};`; // Estilo base para o <span> individual
+        if (isContornoActive) {
+            const contornoColorName = selectedContornoColorNameInput.value;
+            spanStyle += `background-color: ${contornoColorName}; padding: 0 1px;`;
+        }
+        formattedPreview += `<span style="${spanStyle}">${char}</span>`;
+        // --- FIM DA CORREÇÃO ---
     });
     
-    let cssStyle = "";
+    let cssStyle = ""; 
     if (boldCheckbox.checked) cssStyle += "font-weight: bold;";
     if (italicCheckbox.checked) cssStyle += "font-style: italic;";
     if (subCheckbox.checked) cssStyle += "text-decoration: underline;";
     if (grandeCheckbox.checked) cssStyle += "font-size: 1.5em;";
 
-    outputText.style.cssText = cssStyle;
-    outputText.innerHTML = formattedPreview;
+    outputText.style.cssText = cssStyle; // Aplica apenas os estilos globais ao container
+    outputText.innerHTML = formattedPreview; // O innerHTML já contém os spans com background-color
 
     const finalBBCode = generateBBcode(processedText, rawText);
     bbcodeOutput.value = finalBBCode;
@@ -144,6 +197,71 @@ function updateUI() {
     const wordCount = rawText.trim() === "" ? 0 : rawText.trim().split(/\s+/).length;
     document.getElementById('chars').textContent = charCount;
     document.getElementById('words').textContent = wordCount;
+}
+
+// --- Funções para o Modal de Contorno ---
+function openContornoModal() {
+    contornoModalOverlay.classList.add('visible');
+}
+
+function closeContornoModal() {
+    contornoModalOverlay.classList.remove('visible');
+}
+
+function selectContornoColor(hexValue) {
+    const colorName = getColorNameFromHex(hexValue);
+    selectedContornoColorNameInput.value = colorName;
+    isContornoActive = true; // Ativa o contorno quando uma cor é selecionada
+    contornoButton.classList.add('active'); // Ativa o botão
+    contornoButton.style.backgroundColor = hexValue; // Muda a cor de fundo do botão
+    contornoButton.style.color = getContrastColor(hexValue); // Garante contraste do texto
+    
+    // Remove seleção de todos os quadrinhos e adiciona ao selecionado
+    document.querySelectorAll('.modal-color-box').forEach(box => {
+        box.classList.remove('selected');
+        if (box.style.backgroundColor.toUpperCase() === hexValue.toUpperCase()) {
+            box.classList.add('selected');
+        }
+    });
+
+    closeContornoModal();
+    updateUI(); // Atualiza a UI com o contorno
+}
+
+// Função para obter cor de contraste para o texto do botão (preto ou branco)
+function getContrastColor(hexcolor) {
+    // Se precisar de getColorNameFromHex aqui, ela já está definida acima.
+    // Converte HEX para RGB
+    const r = parseInt(hexcolor.slice(1, 3), 16);
+    const g = parseInt(hexcolor.slice(3, 5), 16);
+    const b = parseInt(hexcolor.slice(5, 7), 16);
+
+    // Calcula a luminância (Y = 0.299 R + 0.587 G + 0.114 B)
+    const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+
+    // Retorna branco para cores escuras e preto para cores claras
+    return luminance > 0.5 ? 'black' : 'white';
+}
+
+
+function populateContornoModalPalette() {
+    contornoModalPalette.innerHTML = '';
+    
+    // Converte o objeto hexToColorName para um array de HEXs para iterar
+    const colors = Object.keys(hexToColorName); 
+
+    colors.forEach(hexValue => {
+        const colorBox = document.createElement('div');
+        colorBox.classList.add('modal-color-box');
+        colorBox.style.backgroundColor = hexValue;
+
+        colorBox.addEventListener('click', () => selectContornoColor(hexValue));
+        contornoModalPalette.appendChild(colorBox);
+    });
+
+    // Seleciona uma cor padrão ao carregar o modal/paleta
+    const defaultColorHex = '#000000'; // Cor padrão inicial do contorno (preto)
+    selectContornoColor(defaultColorHex); // Define a cor inicial e ativa o botão
 }
 
 // --- 5. LÓGICA DE CONTROLE E EVENTOS ---
@@ -173,6 +291,28 @@ clearButton.addEventListener("click", () => { gradientText.value = ""; updateUI(
 // Eventos que disparam a atualização da UI
 [gradientText, startColorInput, midColorInput, thirdColorInput, fontStyleSelect, boldCheckbox, italicCheckbox, subCheckbox, grandeCheckbox].forEach(el => {
     el.addEventListener(el.type === 'checkbox' || el.tagName === 'SELECT' ? 'change' : 'input', updateUI);
+});
+
+// Eventos para o botão e modal de Contorno
+contornoButton.addEventListener('click', () => {
+    if (isContornoActive) {
+        // Se já está ativo, clicar no botão desativa
+        isContornoActive = false;
+        contornoButton.classList.remove('active');
+        contornoButton.style.backgroundColor = ''; // Volta à cor padrão do CSS
+        contornoButton.style.color = '#d3d3d3'; // Volta à cor padrão do texto
+        updateUI();
+    } else {
+        // Se não está ativo, abrir o modal para seleção
+        openContornoModal();
+    }
+});
+closeContornoModalButton.addEventListener('click', closeContornoModal);
+// Fechar modal clicando fora (no overlay)
+contornoModalOverlay.addEventListener('click', (event) => {
+    if (event.target === contornoModalOverlay) {
+        closeContornoModal();
+    }
 });
 
 // --- LÓGICA PARA PREENCHER O SELECT DE FONTES ---
@@ -236,6 +376,7 @@ function populateFontStyleSelect() {
 // --- Inicialização da página ---
 window.onload = () => {
     populateFontStyleSelect(); // Preenche o select de fontes
+    populateContornoModalPalette(); // Preenche a paleta de cores do contorno
     activateButton(twoColorButton); // Ativa o botão de 2 cores por padrão
     isTwoColorActive = true;
     isSolidColorActive = false;
