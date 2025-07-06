@@ -28,7 +28,7 @@ const gradientText = document.getElementById("gradient-text"),
 
 
 // --- 2. ESTADO DA APLICAÇÃO ---
-let isRainbowActive = false, isTwoColorActive = false, isThreeColorActive = false, isSolidColorActive = true;
+let isRainbowActive = false, isTwoColorActive = false, isThreeColorActive = false, isSolidColorActive = true, isContornoActive = false;
 
 // --- 3. FUNÇÕES DE CONVERSÃO DE CORES (mantidas aqui) ---
 
