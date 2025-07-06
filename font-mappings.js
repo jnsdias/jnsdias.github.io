@@ -109,42 +109,9 @@ const fatTextMap = {
 };
 
 const smallcapsMap = {
-    // Caracteres base Small Caps (minúsculas e maiúsculas) - já devem estar no seu mapa
     'a':'ᴀ','b':'ʙ','c':'ᴄ','d':'ᴅ','e':'ᴇ','f':'ꜰ','g':'ɢ','h':'ʜ','i':'ɪ','j':'ᴊ','k':'ᴋ','l':'ʟ','m':'ᴍ','n':'ɴ','o':'ᴏ','p':'ᴘ','q':'ǫ','r':'ʀ','s':'s','t':'ᴛ','u':'ᴜ','v':'ᴠ','w':'ᴡ','x':'x','y':'ʏ','z':'ᴢ',
     'A':'ᴀ','B':'ʙ','C':'ᴄ','D':'ᴅ','E':'ᴇ','F':'ꜰ','G':'ɢ','H':'ʜ','I':'ɪ','J':'ᴊ','K':'ᴋ','L':'ʟ','M':'ᴍ','N':'ɴ','O':'ᴏ','P':'ᴘ','Q':'ǫ','R':'ʀ','S':'s','T':'ᴛ','U':'ᴜ','V':'ᴠ','W':'ᴡ','X':'x','Y':'ʏ','Z':'ᴢ',
-    
-    // Números (não são estilizados, mantêm a aparência normal)
-    '0': '0', '1': '1', '2': '2', '3': '3', '4': '4', '5': '5', '6': '6', '7': '7', '8': '8', '9': '9',
-
-    // Caracteres acentuados (minúsculas) - Mapeados para Small Caps base + diacrítico combinatório
-    'à': 'ᴀ' + '\u0300', // ᴀ + COMBINING GRAVE ACCENT (grave)
-    'á': 'ᴀ' + '\u0301', // ᴀ + COMBINING ACUTE ACCENT (agudo)
-    'â': 'ᴀ' + '\u0302', // ᴀ + COMBINING CIRCUMFLEX ACCENT (circunflexo)
-    'ã': 'ᴀ' + '\u0303', // ᴀ + COMBINING TILDE (til)
-    'é': 'ᴇ' + '\u0301', // ᴇ + COMBINING ACUTE ACCENT
-    'ê': 'ᴇ' + '\u0302', // ᴇ + COMBINING CIRCUMFLEX ACCENT
-    'í': 'ɪ' + '\u0301', // ɪ + COMBINING ACUTE ACCENT
-    'ó': 'ᴏ' + '\u0301', // ᴏ + COMBINING ACUTE ACCENT
-    'ô': 'ᴏ' + '\u0302', // ᴏ + COMBINING CIRCUMFLEX ACCENT
-    'õ': 'ᴏ' + '\u0303', // ᴏ + COMBINING TILDE
-    'ú': 'ᴜ' + '\u0301', // ᴜ + COMBINING ACUTE ACCENT
-    'ü': 'ᴜ' + '\u0308', // ᴜ + COMBINING DIAERESIS (trema)
-    'ç': 'ᴄ' + '\u0327', // ᴄ + COMBINING CEDILLA (a renderização pode variar)
-
-    // Caracteres acentuados (maiúsculas) - Mapeados para Small Caps base + diacrítico combinatório
-    'À': 'ᴀ' + '\u0300',
-    'Á': 'ᴀ' + '\u0301',
-    'Â': 'ᴀ' + '\u0302',
-    'Ã': 'ᴀ' + '\u0303',
-    'É': 'ᴇ' + '\u0301',
-    'Ê': 'ᴇ' + '\u0302',
-    'Í': 'ɪ' + '\u0301',
-    'Ó': 'ᴏ' + '\u0301',
-    'Ô': 'ᴏ' + '\u0302',
-    'Õ': 'ᴏ' + '\u0303',
-    'Ú': 'ᴜ' + '\u0301',
-    'Ü': 'ᴜ' + '\u0308',
-    'Ç': 'ᴄ' + '\u0327'
+    '0': '0', '1': '1', '2': '2', '3': '3', '4': '4', '5': '5', '6': '6', '7': '7', '8': '8', '9': '9' // Números não são estilizados, permanecem como fallback
 };
 
 const wideTextMap = {
