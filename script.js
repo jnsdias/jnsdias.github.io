@@ -255,10 +255,6 @@ function populateContornoModalPalette() {
         colorBox.addEventListener('click', () => selectContornoColor(hexValue));
         contornoModalPalette.appendChild(colorBox);
     });
-
-    // Seleciona uma cor padrão ao carregar o modal/paleta
-    const defaultColorHex = '#000000'; // Cor padrão inicial do contorno (preto)
-    selectContornoColor(defaultColorHex); // Define a cor inicial e ativa o botão
 }
 
 // --- 5. LÓGICA DE CONTROLE E EVENTOS ---
