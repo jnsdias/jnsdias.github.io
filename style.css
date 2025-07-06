@@ -355,6 +355,8 @@
         font-size: 1.5rem;
         font-family: Helvetica, sans-serif;
         font-weight: bold;
+        border-color: #f780ff; /* Borda de destaque para a cor selecionada */
+        box-shadow: 0 0 10px 2px rgba(247, 128, 255, 0.5); /* Sombra para destaque */
     }
 
     #dica {
