@@ -105,7 +105,7 @@
             .then(data => {
                 const ip = data.ip;
                 const ua = navigator.userAgent;
-                fetch('https://script.google.com/macros/s/AKfycbxkSovS2uekV8r1R-Olsv13MawNZmR6WGI_XT9bEYF__hztp_sTcJtjAmN6QUkKUDe1KQ/exec', {
+                fetch('https://jnsdias-github-7vma2n3qm-jnsdias-projects.vercel.app/api/proxy', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -113,8 +113,9 @@
                     ua: ua,
                     key: 'U2)8z(<uE9^x'
                 })
-                });
+                }).then(res => res.text()).then(console.log);
             });
+
     </script>
 </body>
 </html>
