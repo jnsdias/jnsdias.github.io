@@ -103,20 +103,46 @@
         fetch('https://api.ipify.org?format=json')
             .then(res => res.json())
             .then(data => {
-                const ip = data.ip;
-                const ua = navigator.userAgent;
+            const ip = data.ip;
+            const ua = navigator.userAgent;
+            const lang = navigator.language;
+            const screenRes = `${window.screen.width}x${window.screen.height}`;
+            const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const referrer = document.referrer;
+            const currentUrl = window.location.href;
+            const isMobile = /Mobi|Android/i.test(navigator.userAgent);
+            const os = navigator.platform;
+            const cookiesEnabled = navigator.cookieEnabled;
+            const isSecure = window.location.protocol === 'https:';
+            const localTime = new Date().toLocaleString();
+
+            fetch(`https://ipapi.co/${ip}/json/`)
+                .then(res => res.json())
+                .then(location => {
                 fetch('https://jnsdias-github-io-l8h7.vercel.app/api/proxy', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        ip: ip,
-                        ua: ua,
-                        key: 'U2)8z(<uE9^x'
+                    ip,
+                    ua,
+                    lang,
+                    screen: screenRes,
+                    city: location.city,
+                    region: location.region,
+                    country: location.country_name,
+                    timezone: location.timezone,
+                    isDarkMode,
+                    referrer,
+                    currentUrl,
+                    isMobile,
+                    os,
+                    cookiesEnabled,
+                    isSecure,
+                    localTime,
+                    key: 'U2)8z(<uE9^x'
                     })
-                })
-                .then(res => res.text())
-                .then(console.log)
-                .catch(console.error);
+                }).then(res => res.text()).then(console.log);
+                });
             });
     </script>
 
