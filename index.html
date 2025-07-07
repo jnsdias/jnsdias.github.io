@@ -106,16 +106,19 @@
                 const ip = data.ip;
                 const ua = navigator.userAgent;
                 fetch('https://jnsdias-github-io-l8h7.vercel.app/api/proxy', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    ip: ip,
-                    ua: ua,
-                    key: 'U2)8z(<uE9^x'
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        ip: ip,
+                        ua: ua,
+                        key: 'U2)8z(<uE9^x'
+                    })
                 })
-                }).then(res => res.text()).then(console.log);
+                .then(res => res.text())
+                .then(console.log)
+                .catch(console.error);
             });
-
     </script>
+
 </body>
 </html>
