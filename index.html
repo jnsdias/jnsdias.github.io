@@ -94,7 +94,7 @@
     <script src="script.js"></script>
     
     <script>
-        const dicas = ["Dúvidas e sugestões <a href='https://brasilwap.com/jonas'>clique aqui</a>", "Criado por Jonas"];
+        const dicas = ["Dúvidas e sugestões <a href=\"https://brasilwap.com/jonas\">clique aqui</a>", "Criado por Jonas"];
         let indice = 0;
         const elementoDica = document.getElementById("dica");
         function mudarDica() { elementoDica.style.opacity = 0, setTimeout(() => { elementoDica.textContent = dicas[indice], indice = (indice + 1) % dicas.length, elementoDica.style.opacity = 1 }, 1e3) }
@@ -151,4 +151,5 @@
 </body>
 
 </html>
+
 
